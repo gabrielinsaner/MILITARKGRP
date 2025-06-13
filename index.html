@@ -157,7 +157,7 @@
           ${noticia.imagem ? `<img src="${noticia.imagem}" alt="Imagem da notícia">` : ''}
           <div class="card-body">
             <h3>${noticia.titulo}</h3>
-            <p>${noticia.conteudo}</p>
+            <p>${formatarTexto(noticia.conteudo)}</p>
             <span>${noticia.data}</span>
           </div>
         `;
@@ -167,6 +167,15 @@
     .catch(error => {
       console.error('Erro ao carregar notícias:', error);
     });
+</script>
+<script>
+  function formatarTexto(texto) {
+    // Duas quebras de linha = parágrafo
+    texto = texto.replace(/\n{2,}/g, '</p><p>');
+    // Uma quebra de linha = <br>
+    texto = texto.replace(/\n/g, '<br>');
+    return texto;
+  }
 </script>
 </body>
 </html>

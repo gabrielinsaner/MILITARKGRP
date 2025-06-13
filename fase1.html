@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PM KGRP - Sistema</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #000;
+      font-family: Arial, sans-serif;
+    }
+    #loadingCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+    }
+    #loadingText {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.5rem;
+      color: #00ffe7;
+      z-index: 1;
+      text-shadow: 0 0 8px #00ffe7;
+    }
+    #mainContent {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="loadingCanvas"></canvas>
+<div id="loadingText">🛰️ INICIALIZANDO SISTEMA CENTRAL KGRP</div>
+<div id="mainContent">
+  <iframe
+    id="background-video"
+    src="https://www.youtube.com/embed/MTcd29oQtWU?autoplay=1&loop=1&playlist=MTcd29oQtWU&mute=1&enablejsapi=1"
+    frameborder="0"
+    allow="autoplay; encrypted-media"
+    allowfullscreen
+    style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none;">
+  </iframe>
+  
+    <button id="mute-toggle" onclick="toggleMute()" style="position: absolute; top: 20px; right: 20px; background-color: rgba(0,0,0,0.7); color: white; font-size: 1.5rem; padding: 10px 20px; border-radius: 10px; cursor: pointer; z-index: 2;">🔇</button>
+    
+    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); background-color: rgba(0,0,0,0.8); border: 2px solid gold; border-radius: 12px; padding: 20px 40px; box-shadow: 0 0 15px gold; text-align: center; z-index:1;">
+      <h2 style="color: #ffc700; margin: 0 0 10px;">CENTRO DE OPERAÇÕES - PM KGRP</h2>
+      <p style="color: #ccc;">Unidade tática conectada. Todos os sistemas operacionais online.</p>
+      <button onclick="location.href='quiz.html'" style="margin-top: 15px; background-color: #111; border: 1px solid #0077ff; color: white; padding: 10px 20px; font-size: 1rem; border-radius: 10px; cursor: pointer;">
+        🚀 Iniciar Navegação
+      </button>
+    </div>
+    <button style="display:none"
+    
+     style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); z-index:1; padding:15px 30px; font-size:1rem; border:2px solid #0077ff; border-radius:10px; background:black; color:white; cursor:pointer;">🚀 Iniciar Navegação</button>
+</div>
+
+<script>
+  const canvas = document.getElementById('loadingCanvas');
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+
+  let points = [];
+  for (let i = 0; i < 100; i++) {
+    points.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.5,
+      vy: (Math.random() - 0.5) * 0.5
+    });
+  }
+
+  function drawLines(mouseX, mouseY) {
+    ctx.clearRect(0, 0, width, height);
+    for (let i = 0; i < points.length; i++) {
+      let p = points[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > width) p.vx *= -1;
+      if (p.y < 0 || p.y > height) p.vy *= -1;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+      ctx.fillStyle = "#00ff00";
+      ctx.fill();
+    }
+    for (let i = 0; i < points.length; i++) {
+      for (let j = i + 1; j < points.length; j++) {
+        let dx = points[i].x - points[j].x;
+        let dy = points[i].y - points[j].y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(points[i].x, points[i].y);
+          ctx.lineTo(points[j].x, points[j].y);
+          ctx.strokeStyle = "rgba(0,255,0," + (1 - dist / 120) + ")";
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  let mouseX = 0;
+  let mouseY = 0;
+  document.addEventListener("mousemove", function (e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+
+  function animate() {
+    drawLines(mouseX, mouseY);
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Mostrar conteúdo após 30 segundos
+  setTimeout(() => {
+    document.getElementById('loadingCanvas').style.display = 'none';
+    document.getElementById('loadingText').style.display = 'none';
+    
+    document.getElementById('mainContent').style.display = 'block';
+    document.getElementById('mute-toggle').style.display = 'block';
+    
+  }, 10000);
+</script>
+</body>
+</html>
+
+<script>
+let isMuted = true;
+function toggleMute() {
+  const iframe = document.getElementById('background-video');
+  const command = { event: 'command', func: isMuted ? 'unMute' : 'mute', args: [] };
+  iframe.contentWindow.postMessage(JSON.stringify(command), '*');
+  document.getElementById('mute-toggle').textContent = isMuted ? '🔊' : '🔇';
+  isMuted = !isMuted;
+}
+</script>

@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Verificação de Segurança - KGRP</title>
+<style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #000;
+      font-family: 'Segoe UI', sans-serif;
+      color: #00ffe7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+    }
+    .quiz-box {
+      max-width: 700px;
+      padding: 30px;
+      border: 2px solid #00ffe7;
+      border-radius: 12px;
+      background-color: rgba(0, 0, 0, 0.85);
+      box-shadow: 0 0 20px #00ffe7;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .option {
+      display: block;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 10px 15px;
+      margin: 8px 0;
+      border: 1px solid #00ffe7;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .option:hover {
+      background-color: #00ffe7;
+      color: black;
+    }
+    #timer {
+      font-size: 1.2rem;
+      color: #ffc700;
+      margin-bottom: 20px;
+    }
+    .message {
+      font-size: 1.3rem;
+      margin-top: 20px;
+      color: #ffc700;
+      animation: flash 1s infinite;
+    }
+    @keyframes flash {
+      0% { opacity: 1; }
+      50% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+<div class="quiz-box" id="quizBox">
+<div id="timer">⏱️ Tempo restante: <span id="time">30</span>s</div>
+<div id="questionBox">
+<div class="question" id="questionText">
+        Me responda a seguinte pergunta de segurança sobre nosso sistema militar:<br/><br/>
+<strong>Qual é a função do policial que conduz a viatura?</strong>
+</div>
+<div class="option" onclick="responder(0, 'A')">A: Ele é responsável pela locomoção da barca</div>
+<div class="option" onclick="responder(0, 'B')">B: Ele é responsável por prender o indivíduo</div>
+<div class="option" onclick="responder(0, 'C')">C: Ele é responsável pela voz de abordagem</div>
+</div>
+</div>
+<script>
+    let respostas = ['A', 'B'];
+    let etapa = 0;
+    let tempo = 30;
+    let interval;
+
+    const timeEl = document.getElementById('time');
+    const questionBox = document.getElementById('questionBox');
+    const quizBox = document.getElementById('quizBox');
+
+    iniciarContagem();
+
+    function iniciarContagem() {
+      timeEl.textContent = tempo;
+      interval = setInterval(() => {
+        tempo--;
+        timeEl.textContent = tempo;
+        if (tempo <= 0) {
+          mostrarErro("⏰ TEMPO ESGOTADO! Acesso negado.");
+        }
+      }, 1000);
+    }
+
+    function responder(questao, resposta) {
+      if (resposta !== respostas[questao]) {
+        mostrarErro("❌ ERROU bizonho! Está tentando acessar as informações da Polícia Militar e não sabe o básico kkkkk. Tente mais tarde.");
+        return;
+      }
+      clearInterval(interval);
+      if (etapa === 0) {
+        etapa++;
+        tempo = 30;
+        iniciarContagem();
+        questionBox.innerHTML = `
+          <div class="question">
+            <strong>A modulação de uma barca é obrigatoriamente função do P2?</strong>
+          </div>
+          <div class="option" onclick="responder(1, 'A')">A: Apenas o P2 pode modular</div>
+          <div class="option" onclick="responder(1, 'B')">B: Todos podem modular caso o P2 se encontre impossibilitado no momento</div>
+          <div class="option" onclick="responder(1, 'C')">C: Apenas o PC, P3 e P4 podem</div>
+        `;
+      } else {
+        quizBox.innerHTML = `<div class="message">✅ Você acertou, parabéns! Agora poderá adentrar a base de dados da PM KGRP.</div>`;
+        setTimeout(() => {
+          window.location.href = 'fase3.html';
+        }, 4000);
+      }
+    }
+
+    function mostrarErro(msg) {
+      clearInterval(interval);
+      quizBox.innerHTML = `<div class="message" style="color:red;">${msg}</div>`;
+      setTimeout(() => {
+        window.close();
+      }, 6000);
+    }
+  </script>
+</body>
+</html>

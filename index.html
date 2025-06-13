@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notícias PM KGRP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&family=Oxanium:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Oxanium', sans-serif;
+      background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      background: linear-gradient(to right, #8B0000, #000);
+      width: 100%;
+      text-align: center;
+      padding: 60px 20px 40px;
+      border-bottom: 4px solid #00ffcc;
+      position: relative;
+      box-shadow: 0 0 25px #ff0000a8;
+    }
+    header::before {
+      content: "";
+      position: absolute;
+      top: 20px;
+      left: 40px;
+      width: 80px;
+      height: 80px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/PMESP_Bras%C3%A3o.png/120px-PMESP_Bras%C3%A3o.png') no-repeat center;
+      background-size: contain;
+      filter: drop-shadow(0 0 4px rgba(0,0,0,0.6));
+    }
+    header h1 {
+      font-size: 2.8rem;
+      color: #00ffcc;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px #00ffcc;
+      margin-bottom: 10px;
+    }
+    header p {
+      font-size: 1rem;
+      color: #bbbbbb;
+      font-style: italic;
+    }
+    .ocorrencias {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 30px;
+      width: 100%;
+      max-width: 1300px;
+      padding: 40px 20px;
+    }
+    .card {
+      background: #111;
+      border: 1px solid #00ffcc50;
+      border-left: 6px solid #ff0000;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 255, 200, 0.15);
+      transition: 0.3s ease-in-out;
+    }
+    .card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 30px #00ffcc80;
+    }
+    .card img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      display: block;
+      border-bottom: 1px solid #222;
+    }
+    .card-body {
+      padding: 20px;
+    }
+    .card-body h3 {
+      color: #00ccff;
+      font-size: 1.4rem;
+      margin: 0 0 12px;
+      letter-spacing: 1px;
+    }
+    .card-body p {
+      font-size: 1rem;
+      color: #dddddd;
+      line-height: 1.5;
+    }
+    .card-body span {
+      display: block;
+      margin-top: 12px;
+      color: #888;
+      font-size: 0.85rem;
+      font-style: italic;
+    }
+    .botao-central {
+      margin: 60px 0 40px;
+    }
+    .botao-central a {
+      background: #00ffcc;
+      color: #000;
+      padding: 16px 32px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #00ffcc99;
+      transition: 0.3s;
+    }
+    .botao-central a:hover {
+      background: #00ccaa;
+      transform: scale(1.05);
+    }
+    footer {
+      width: 100%;
+      background: #000;
+      padding: 15px 20px;
+      text-align: center;
+      color: #555;
+      font-size: 0.9rem;
+      border-top: 2px solid #00ffcc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>NOTÍCIAS DA POLÍCIA MILITAR KGRP</h1>
+    <p>Boletim Oficial | Ocorrências registradas e divulgadas pela corporação</p>
+  </header>
+
+  <section class="ocorrencias" id="noticiasContainer">
+    <!-- Notícias serão carregadas automaticamente -->
+  </section>
+
+  <div class="botao-central">
+    <a href="fase1.html">IR PARA A CENTRAL</a>
+  </div>
+
+  <footer>
+    Atualizado diariamente | Polícia Militar KGRP - RP Virtual MTA
+  </footer>
+
+<script>
+  fetch('https://kgrp-api.onrender.com/noticias')
+    .then(response => response.json())
+    .then(data => {
+      const container = document.getElementById('noticiasContainer');
+      data.forEach(noticia => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          ${noticia.imagem ? `<img src="${noticia.imagem}" alt="Imagem da notícia">` : ''}
+          <div class="card-body">
+            <h3>${noticia.titulo}</h3>
+            <p>${noticia.conteudo}</p>
+            <span>${noticia.data}</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    })
+    .catch(error => {
+      console.error('Erro ao carregar notícias:', error);
+    });
+</script>
+</body>
+</html>

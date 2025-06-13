@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ROTA - Rondas Ostensivas Tobias de Aguiar</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+    * {margin: 0; padding: 0; box-sizing: border-box;}
+    html, body {
+      width: 100%; min-height: 100%; 
+      font-family: 'Rajdhani', sans-serif;
+      background: #0a0a0f; overflow: auto;
+      color: #ffffff;
+    }
+    canvas {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; z-index: 0;
+    }
+    .container {
+      position: relative; z-index: 1;
+      max-width: 800px; margin: 60px auto;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid #00ffff33;
+      padding: 40px; border-radius: 15px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 25px #00ffff55;
+    }
+    h1 {color: #00ffff; font-size: 2rem; margin-bottom: 20px;}
+    h2 {color: #00ccff; font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px;}
+    p, li {color: #e0f7ff; margin-bottom: 10px; font-size: 1.1rem; line-height: 1.5;}
+    ul {padding-left: 20px;}
+    .btn {
+      margin-top: 30px; display: inline-block;
+      padding: 10px 20px; background: transparent;
+      color: #00ffff; border: 1px solid #00ffff;
+      border-radius: 8px; text-decoration: none;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #00ffff; color: #000;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div class="container">
+<h2>O que é?</h2>
+<p>A ROTA (Rondas Ostensivas Tobias de Aguiar) é uma tropa de elite da Polícia Militar, com atuação voltada para o enfrentamento direto da criminalidade de maior gravidade. É uma das unidades mais respeitadas pela sua disciplina rígida, preparo técnico elevado e presença marcante nas ruas. Sua missão é garantir o controle da ordem pública em situações de alto risco, agindo com precisão e força quando necessário.</p>
+
+<p>A presença da ROTA é estratégica. Ela atua onde o policiamento convencional não é suficiente, realizando patrulhamento ostensivo, intervenções táticas e combate qualificado ao crime. A tropa é formada por policiais com perfil firme, disciplinado e preparados para agir sob pressão em situações críticas. Sua simples presença em determinadas regiões já representa dissuasão para práticas criminosas.</p>
+
+<h2>Funções</h2>
+<ul>
+  <li>Executar patrulhamento ostensivo em áreas com alta incidência de crimes</li>
+  <li>Combater ações de facções, tráfico de drogas e quadrilhas organizadas</li>
+  <li>Realizar abordagens a indivíduos e veículos suspeitos em pontos estratégicos</li>
+  <li>Intervir em situações com risco elevado, como sequestros, assaltos em andamento e confrontos armados</li>
+  <li>Dar suporte a operações de outras unidades da Polícia Militar</li>
+  <li>Atuar na contenção de distúrbios urbanos ou confrontos em larga escala</li>
+</ul>
+
+<h2>Treinamento</h2>
+<p>O ingresso na ROTA exige alto nível técnico e físico. O treinamento é rigoroso e abrange combate tático urbano, progressão em áreas de risco, abordagem de suspeitos, manuseio de armamentos pesados e direção ofensiva. Além disso, os policiais são treinados em resposta rápida sob estresse, técnicas de imobilização, tiro de precisão e atuação em duplas ou grupos táticos.</p>
+
+<p>Também fazem parte do curso noções jurídicas, ética policial, protocolos de segurança, disciplina militar e simulações realistas de ocorrências com risco de morte. Os integrantes da ROTA precisam demonstrar equilíbrio emocional, iniciativa e trabalho em equipe, pois operam frequentemente em cenários de tensão extrema.</p>
+
+<h2>Importância</h2>
+<p>A ROTA representa a linha de frente no combate à criminalidade violenta. Sua atuação firme e técnica traz segurança à população e impõe respeito às leis nas áreas mais afetadas pela violência. É uma tropa que age com autoridade, sempre dentro da legalidade, protegendo vidas e restaurando a ordem quando o Estado precisa demonstrar força.</p>
+
+    <a href="fase5.html" class="btn">⬅ Voltar para o Menu</a>
+  </div>
+  <script>
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const points = [];
+    for (let i = 0; i < 100; i++) {
+      points.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 1.5,
+        vy: (Math.random() - 0.5) * 1.5
+      });
+    }
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < points.length; i++) {
+        const p = points[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = '#00ffcc';
+        ctx.fill();
+        for (let j = i + 1; j < points.length; j++) {
+          const p2 = points[j];
+          const dx = p.x - p2.x;
+          const dy = p.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = 'rgba(0,255,200,0.08)';
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>

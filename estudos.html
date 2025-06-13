@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Área de Estudos - Formação Militar</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+    * {margin: 0; padding: 0; box-sizing: border-box;}
+    html, body {
+      width: 100%; height: 100%;
+      font-family: 'Rajdhani', sans-serif;
+      background: #0a0a0f; overflow: hidden;
+      color: #ffffff;
+    }
+    canvas {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; z-index: 0;
+    }
+    .acesso-container {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 2; text-align: center;
+      background: rgba(0,0,0,0.6); padding: 40px;
+      border-radius: 15px; border: 1px solid #00ffff88;
+      backdrop-filter: blur(8px); box-shadow: 0 0 20px #00ffff55;
+    }
+    .acesso-container h1 {
+      color: #00ffff; font-family: 'Orbitron', sans-serif;
+      margin-bottom: 20px;
+    }
+    .acesso-container input {
+      padding: 10px; width: 80%;
+      background: transparent; border: 1px solid #00ffff;
+      color: #00ffff; border-radius: 8px;
+      margin-bottom: 15px; font-size: 1.1rem;
+      text-align: center;
+    }
+    .acesso-container button {
+      padding: 10px 20px; background: #00ffff;
+      border: none; color: #000;
+      font-weight: bold; border-radius: 8px;
+      cursor: pointer; font-size: 1rem;
+      transition: 0.3s;
+    }
+    .acesso-container button:hover {
+      background: #00ccff;
+    }
+
+    .aviso-negado {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      background: rgba(255, 0, 0, 0.1);
+      border: 2px solid red;
+      color: red; font-size: 2rem;
+      font-family: 'Orbitron', sans-serif;
+      padding: 20px 40px;
+      border-radius: 10px;
+      z-index: 5;
+      animation: tremer 0.4s infinite;
+      box-shadow: 0 0 25px red;
+    }
+    @keyframes tremer {
+      0% { transform: translate(-50%, -50%) rotate(0deg); }
+      25% { transform: translate(-48%, -52%) rotate(1deg); }
+      50% { transform: translate(-50%, -50%) rotate(0deg); }
+      75% { transform: translate(-52%, -48%) rotate(-1deg); }
+      100% { transform: translate(-50%, -50%) rotate(0deg); }
+    }
+
+    .container {
+      display: none;
+      position: relative; z-index: 1;
+      max-width: 800px; margin: 80px auto;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid #00ffff33;
+      padding: 40px; border-radius: 15px;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 0 25px #00ffff55;
+    }
+    h2 {color: #00ccff; font-size: 1.3rem; margin-top: 30px; margin-bottom: 10px;}
+    p, li {color: #e0f7ff; margin-bottom: 10px; font-size: 1.1rem; line-height: 1.5;}
+    ul {padding-left: 20px;}
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+
+  <div class="acesso-container" id="acesso">
+    <h1>Área Restrita de Estudos</h1>
+    <input type="password" id="senha" placeholder="Digite a senha de acesso" />
+    <button onclick="verificarSenha()">Entrar</button>
+  </div>
+
+  <div class="container" id="conteudoEstudo">
+ <h2>Bem-vindo à Área de Estudos Militares</h2>
+<p>Este espaço é destinado exclusivamente a alunos em formação para ingresso na Polícia Militar. Aqui você encontrará materiais teóricos, condutas disciplinares e orientações técnicas sobre o serviço policial, hierarquia, estratégias de patrulhamento e muito mais.</p>
+
+<h2>Conteúdo Base</h2>
+<ul>
+  <li>Hierarquia Militar e Funções de Cada Patente</li>
+  <li>Normas de Conduta e Disciplina</li>
+  <li>Abordagem e Comunicação Tática</li>
+  <li>Modulação e Códigos Operacionais</li>
+  <li>Treinamentos Físicos e Técnicos</li>
+</ul>
+
+<hr>
+
+<h2>📌 Hierarquia Militar Completa</h2>
+<p>A hierarquia é a espinha dorsal da Polícia Militar. Cada patente representa um nível de autoridade e responsabilidade. Abaixo estão listadas todas as patentes em ordem crescente, com suas respectivas funções:</p>
+
+<ul>
+  <li><strong>Recruta:</strong> Em formação, sem poder de atuação, participa apenas de instruções e observações.</li>
+  <li><strong>Soldado:</strong> Início da atuação operacional. Atua em patrulhamentos e abordagens sob supervisão.</li>
+  <li><strong>Cabo:</strong> Militar com experiência básica. Auxilia no treinamento de recrutas e atua em missões básicas.</li>
+  <li><strong>3º Sargento:</strong> Supervisiona soldados e cabos. Responsável por pequenas equipes e relatórios operacionais.</li>
+  <li><strong>2º Sargento:</strong> Atua como elo entre a tropa e os oficiais. Supervisiona operações e conduz formações.</li>
+  <li><strong>1º Sargento:</strong> Comando mais próximo da linha de frente. Participa da administração da tropa e da disciplina.</li>
+  <li><strong>Subtenente:</strong> Cargo máximo entre praças. Participa do planejamento e administração da tropa.</li>
+  <li><strong>Aspirante a Oficial:</strong> Oficial em formação. Atua sob supervisão de tenentes em operações administrativas e táticas.</li>
+  <li><strong>2º Tenente:</strong> Comanda pequenos pelotões. Responsável por coordenação tática e instrução de base.</li>
+  <li><strong>1º Tenente:</strong> Atua como gestor de tropas e logística. Supervisiona tenentes e participa do planejamento estratégico.</li>
+  <li><strong>Capitão:</strong> Comanda companhias. Planeja operações e representa a PM em reuniões de alto nível.</li>
+  <li><strong>Major:</strong> Atua na chefia de batalhões. Responsável por várias companhias e pelo planejamento avançado.</li>
+  <li><strong>Tenente-Coronel:</strong> Subcomandante de batalhão ou comandante de unidades médias. Função de liderança tática e administrativa.</li>
+  <li><strong>Coronel:</strong> Comandante máximo da Polícia Militar no servidor. Responsável por todas as divisões e operações da PM KGRP.</li>
+</ul>
+
+<hr>
+
+<h2>📖 Normas de Conduta e Disciplina</h2>
+<ul>
+  <li><strong>Respeito à Hierarquia:</strong> Um militar mais novo deve sempre respeitar os mais antigos, seja pela patente ou tempo de serviço.</li>
+  <li><strong>Postura Militar:</strong> Sempre se portar com disciplina, seriedade e comprometimento com a farda.</li>
+  <li><strong>Ordem é ordem:</strong> Ordens superiores devem ser cumpridas. Desobediência será punida conforme os códigos internos.</li>
+  <li><strong>Punições:</strong> Advertência verbal, advertência escrita, rebaixamento, afastamento e exclusão.</li>
+</ul>
+
+<hr>
+
+<h2>📡 Comunicação e Modulação</h2>
+<p>A modulação é a forma de comunicação tática via rádio. Deve ser feita com clareza, objetividade e uso de códigos. Funções dentro de uma viatura:</p>
+<ul>
+  <li><strong>P1 (Primeiro Homem):</strong> Condutor da viatura. Responsável pela direção e deslocamento.</li>
+  <li><strong>P2 (Segundo Homem):</strong> Responsável pela modulação (comunicação via rádio).</li>
+  <li><strong>P3:</strong> Responsável pela visualização tática e apoio lateral.</li>
+  <li><strong>P4:</strong> Auxílio geral em operações (se presente).</li>
+</ul>
+<p>Todos devem saber modular em caso de emergência. Utilizar termos padronizados e código fonético é obrigatório.</p>
+
+<hr>
+
+<h2>🔤 Alfabeto Fonético</h2>
+<p>Usado para transmitir nomes e placas de forma clara no rádio:</p>
+<ul class="columns-2">
+  <li>A - Alfa</li><li>B - Bravo</li><li>C - Charlie</li><li>D - Delta</li><li>E - Eco</li>
+  <li>F - Foxtrot</li><li>G - Golf</li><li>H - Hotel</li><li>I - Índia</li><li>J - Juliett</li>
+  <li>K - Kilo</li><li>L - Lima</li><li>M - Mike</li><li>N - November</li><li>O - Oscar</li>
+  <li>P - Papa</li><li>Q - Quebec</li><li>R - Romeo</li><li>S - Sierra</li><li>T - Tango</li>
+  <li>U - Uniform</li><li>V - Victor</li><li>W - Whiskey</li><li>X - X-ray</li><li>Y - Yankee</li><li>Z - Zulu</li>
+</ul>
+
+<hr>
+
+<h2>🔢 Códigos Operacionais</h2>
+<ul>
+  <li><strong>QAP:</strong> Na escuta</li>
+  <li><strong>QSL:</strong> Entendido</li>
+  <li><strong>QRA:</strong> Nome</li>
+  <li><strong>QTH:</strong> Localização</li>
+  <li><strong>QRR:</strong> Ameaça real</li>
+  <li><strong>QRT:</strong> Encerrando comunicações</li>
+  <li><strong>QTI:</strong> Indo ao local</li>
+  <li><strong>QTC:</strong> Mensagem</li>
+  <li><strong>QSV:</strong> Precisa repetir</li>
+  <li><strong>QRM:</strong> Interferência</li>
+</ul>
+
+<hr>
+
+<h2>🏃 Treinamento Físico e Técnico</h2>
+<ul>
+  <li><strong>Condicionamento:</strong> Corrida, resistência, agilidade e reflexo.</li>
+  <li><strong>Simulação:</strong> Patrulha, abordagem a pé e motorizada, blitz e contenção de área.</li>
+  <li><strong>Teórico:</strong> Leitura de materiais, aulas de conduta, testes escritos e provas práticas.</li>
+  <li><strong>Operações:</strong> Participação supervisionada em ações reais do servidor após aprovação teórica.</li>
+</ul>
+
+<hr>
+
+<h2>📌 Considerações Finais</h2>
+<p>Todo militar deve ter consciência de seu papel no cumprimento da lei e na manutenção da ordem. Ser PM é uma honra e uma responsabilidade. Leve os estudos a sério e vista a farda com orgulho.</p>
+
+
+  <script>
+    const senhaCorreta = "militar2025"; // <- Você pode trocar essa senha
+
+    function verificarSenha() {
+      const input = document.getElementById('senha').value;
+      if (input === senhaCorreta) {
+        document.getElementById('acesso').style.display = 'none';
+        document.getElementById('conteudoEstudo').style.display = 'block';
+        document.body.style.overflow = 'auto';
+      } else {
+        const aviso = document.createElement('div');
+        aviso.className = 'aviso-negado';
+        aviso.innerText = 'ACESSO NEGADO';
+        document.body.appendChild(aviso);
+        setTimeout(() => {
+          aviso.remove();
+        }, 3000);
+      }
+    }
+
+    // Fundo animado estilo rede
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const points = [];
+    for (let i = 0; i < 100; i++) {
+      points.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 1.5,
+        vy: (Math.random() - 0.5) * 1.5
+      });
+    }
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < points.length; i++) {
+        const p = points[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+        ctx.fillStyle = '#00ffcc';
+        ctx.fill();
+        for (let j = i + 1; j < points.length; j++) {
+          const p2 = points[j];
+          const dx = p.x - p2.x;
+          const dy = p.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 100) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = 'rgba(0,255,200,0.08)';
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  </script>
+</body>
+</html>

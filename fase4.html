@@ -1,0 +1,204 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apresentação - PM KGRP</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      color: #00ffe7;
+      overflow-x: hidden;
+    }
+    section {
+      padding: 60px 10%;
+      border-bottom: 1px solid #00ffe7;
+      animation: fadeIn 1s ease-in;
+    }
+    h2 {
+      color: #00ffcc;
+      text-shadow: 0 0 5px #00ffcc;
+    }
+    p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #ccc;
+    }
+    .matrix-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.1;
+    }
+    .content {
+      position: relative;
+      z-index: 2;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+<canvas class="matrix-bg" id="matrixCanvas"></canvas>
+<div class="content">
+  <section>
+<section>
+  <h2>🔰 O que é a Polícia Militar KGRP</h2>
+  <p>A Polícia Militar da cidade KGRP é uma corporação tática estruturada, voltada para a manutenção da ordem pública, garantia da segurança dos cidadãos e execução de operações de combate ao crime no território urbano e rodoviário. Atuamos com disciplina, hierarquia e foco total na missão.</p>
+  <p>Somos responsáveis pelo policiamento ostensivo, intervenções táticas, gerenciamento de crises e suporte estratégico em ações de risco, respeitando os protocolos militares com alto grau de preparo e seriedade.</p>
+</section>
+
+<section>
+  <h2>🎯 Missão e Valores</h2>
+  <p>A missão da PM KGRP é proteger vidas, garantir a ordem e combater o crime com firmeza e justiça. Nossos valores fundamentais incluem:</p>
+  <ul>
+    <li><strong>Disciplina:</strong> Cumprimento de ordens e regulamentos.</li>
+    <li><strong>Hierarquia:</strong> Respeito às patentes e estrutura de comando.</li>
+    <li><strong>Lealdade:</strong> Compromisso absoluto com a corporação e companheiros.</li>
+    <li><strong>Honra:</strong> Agir com ética, responsabilidade e coragem.</li>
+    <li><strong>Prontidão:</strong> Estar sempre preparado para qualquer missão.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>📋 Funções da Polícia Militar</h2>
+  <p>A atuação da PM KGRP é ampla e estratégica. Entre suas funções estão:</p>
+  <ul>
+    <li>Patrulhamento preventivo e ostensivo em áreas urbanas e rodoviárias.</li>
+    <li>Abordagens e fiscalizações baseadas em fundadas suspeitas.</li>
+    <li>Combate ao tráfico de drogas, armas e crime organizado.</li>
+    <li>Intervenção em ocorrências de alta complexidade e distúrbios civis.</li>
+    <li>Execução de blitz, barreiras táticas e contenção de fugas.</li>
+    <li>Apoio a instituições civis e operacionais em situações de emergência.</li>
+    <li>Manutenção da ordem durante eventos públicos ou manifestações.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>🎓 Formação, Capacitação e Treinamentos</h2>
+  <p>Todo integrante passa por um ciclo de formação que inclui:</p>
+  <ul>
+    <li><strong>Instrução teórica:</strong> Hierarquia, códigos, leis e diretrizes de abordagem.</li>
+    <li><strong>Treinamento prático:</strong> Operação de viaturas, uso de rádio, abordagem tática e simulações reais.</li>
+    <li><strong>Condicionamento físico:</strong> Corridas, resistência, obstáculos, defesa pessoal e imobilização.</li>
+    <li><strong>Tiro e armamento:</strong> Manuseio, recarga tática, precisão e progressão em ambientes fechados.</li>
+    <li><strong>Controle emocional:</strong> Simulações com pressão extrema e situações críticas de decisão rápida.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>📈 Estrutura Hierárquica Completa</h2>
+  <p>A PM KGRP segue a hierarquia militar padrão, com divisões claras de comando, supervisão e execução. Cada patente possui funções específicas, responsabilidade operacional e administrativa. Abaixo estão todas as patentes da corporação:</p>
+
+  <ul>
+    <li><strong>👤 Recruta:</strong> Militar em fase de formação. Participa de treinamentos teóricos e práticos.</li>
+    <li><strong>👮‍♂️ Soldado:</strong> Inicia nas operações básicas. Atua no patrulhamento e abordagens.</li>
+    <li><strong>🔰 Cabo:</strong> Militar experiente. Presta apoio na liderança de duplas e orienta recrutas.</li>
+    <li><strong>🎖️ 3º Sargento:</strong> Supervisiona equipes em campo e garante cumprimento dos protocolos.</li>
+    <li><strong>🎖️ 2º Sargento:</strong> Atua no planejamento de patrulhas e monitora o desempenho de soldados.</li>
+    <li><strong>🎖️ 1º Sargento:</strong> Responsável por treinar e liderar equipes inteiras em operações estratégicas.</li>
+    <li><strong>🎖️ Subtenente:</strong> Elo entre praças e oficiais. Coordena ações operacionais com tática refinada.</li>
+    <li><strong>🎖️ Aspirante a Oficial:</strong> Estágio preparatório para comando. Auxilia tenentes e capitães.</li>
+    <li><strong>📌 2º Tenente:</strong> Lidera equipes táticas. Atua diretamente em planejamento e execução.</li>
+    <li><strong>📌 1º Tenente:</strong> Supervisiona operações e orienta sargentos e cabos.</li>
+    <li><strong>📌 Capitão:</strong> Comandante de batalhão ou unidade específica. Define estratégias operacionais.</li>
+    <li><strong>📍 Major:</strong> Planeja grandes ações e coordena múltiplas divisões.</li>
+    <li><strong>📍 Tenente-Coronel:</strong> Subcomandante da corporação. Fiscaliza setores estratégicos.</li>
+    <li><strong>📍 Coronel:</strong> Comandante-geral da PM KGRP. Responsável máximo por todas as decisões da corporação.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>⚙️ Divisões Especiais</h2>
+  <p>A PM KGRP possui unidades táticas especializadas que atuam conforme o cenário da cidade:</p>
+  <ul>
+    <li><strong>Força Tática:</strong> Intervenção em áreas críticas, uso de armamento pesado e ações rápidas.</li>
+    <li><strong>ROTA:</strong> Patrulhamento em áreas de alta periculosidade, operações ofensivas diretas.</li>
+    <li><strong>ROCAM:</strong> Mobilidade extrema com motocicletas. Perseguições e ações em becos ou vielas.</li>
+    <li><strong>Polícia Rodoviária:</strong> Monitoramento das rodovias, combate ao tráfico e fiscalizações em estradas.</li>
+    <li><strong>ROMU:</strong> Apoio à Guarda Civil. Atua em operações urbanas táticas de contenção.</li>
+    <li><strong>GCM:</strong> Proteção patrimonial, rondas urbanas e apoio à segurança pública.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>📜 Código de Conduta Militar</h2>
+  <p>Todo policial deve manter conduta exemplar. Entre os princípios fundamentais:</p>
+  <ul>
+    <li>Não abandonar a função.</li>
+    <li>Respeitar superiores e subordinados.</li>
+    <li>Não expor a corporação ao ridículo.</li>
+    <li>Evitar conflitos desnecessários ou brigas.</li>
+    <li>Evitar corrupção e atitudes desonrosas.</li>
+    <li>Honrar a farda, mesmo fora de serviço.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>🚀 Evolução, Mérito e Reconhecimento</h2>
+  <p>Promoções são conquistadas por mérito, presença e liderança. O militar deve:</p>
+  <ul>
+    <li>Mostrar comprometimento em operações e treinamentos.</li>
+    <li>Assumir responsabilidades e demonstrar comando.</li>
+    <li>Ser exemplo para subordinados e útil para superiores.</li>
+    <li>Contribuir com a evolução da tropa e da cidade.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>📝 Juramento Militar</h2>
+  <p>Ao ingressar, cada membro jura:</p>
+  <blockquote>
+    "Prometo honrar a farda que visto, proteger o território que sirvo, respeitar a hierarquia e cumprir meu dever com coragem, lealdade e disciplina, mesmo sob risco extremo."
+  </blockquote>
+</section>
+
+</div>
+
+<script>
+  const canvas = document.getElementById("matrixCanvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let letters = "アァカサタナハマヤャラワンABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
+  let fontSize = 14;
+  let columns = canvas.width / fontSize;
+  let drops = [];
+  for (let x = 0; x < columns; x++) drops[x] = 1;
+
+  function draw() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#00ff00";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      let text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+
+  setInterval(draw, 33);
+</script>
+
+  <div style="text-align: center; margin-top: 60px;">
+    <button onclick="window.location.href='fase5.html'" style="padding: 15px 30px; font-size: 1.2rem; background-color: #00ffff; color: #000; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; box-shadow: 0 0 15px #00ffff88;">▶ Avançar para o Menu Central</button>
+  </div>
+</body>
+</html>
+

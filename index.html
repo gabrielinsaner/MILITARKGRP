@@ -177,5 +177,25 @@
     return texto;
   }
 </script>
+<script>
+fetch("https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/noticias.json")
+  .then(res => res.json())
+  .then(noticias => {
+    const container = document.getElementById("noticias-container");
+    noticias.forEach(n => {
+      const div = document.createElement("div");
+      div.className = "noticia";
+      div.innerHTML = `
+        <h2>${n.titulo}</h2>
+        <p>${n.data}</p>
+        <img src="${n.imagem}" style="max-width: 100%; height: auto;" />
+        <p>${n.conteudo}</p>
+        <hr/>
+      `;
+      container.appendChild(div);
+    });
+  });
+</script>
+
 </body>
 </html>

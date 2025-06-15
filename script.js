@@ -1,31 +1,21 @@
-function mostrarNoticias(noticias) {
-  const container = document.getElementById('noticias-container');
-  container.innerHTML = ''; // Limpa antes de adicionar novas
+<div id="noticias-container"></div>
 
-  noticias.forEach(noticia => {
-    const card = document.createElement('div');
-    card.className = 'card';
-
-    card.innerHTML = `
-      <img src="${noticia.imagem}" alt="Imagem da Notícia">
-      <h3>${noticia.titulo}</h3>
-      <p>${noticia.conteudo}</p>
-      <small>${noticia.data}</small>
-    `;
-
-    container.appendChild(card);
-  });
-}
-
-fetch('https://kgrp-api.onrender.com/noticias')
+<script>
+fetch("noticias.json")
   .then(res => res.json())
-  .then(mostrarNoticias)
-  .catch(() => {
-    fetch('noticias_backup.json')
-      .then(res => res.json())
-      .then(mostrarNoticias)
-      .catch(() => {
-        const container = document.getElementById('noticias-container');
-        container.innerHTML = '<p>⚠️ Não foi possível carregar as notícias.</p>';
-      });
+  .then(noticias => {
+    const container = document.getElementById("noticias-container");
+    noticias.forEach(noticia => {
+      const div = document.createElement("div");
+      div.className = "noticia";
+      div.innerHTML = `
+        <h2>${noticia.titulo}</h2>
+        <p>${noticia.data}</p>
+        <img src="${noticia.imagem}" style="max-width: 100%; height: auto;" />
+        <p>${noticia.conteudo}</p>
+        <hr/>
+      `;
+      container.appendChild(div);
+    });
   });
+</script>

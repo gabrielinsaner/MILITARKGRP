@@ -1,7 +1,4 @@
-<div id="noticias-container"></div>
-
-<script>
-fetch("noticias.json")
+fetch("https://kgrp-api.onrender.com/noticias")
   .then(res => res.json())
   .then(noticias => {
     const container = document.getElementById("noticias-container");
@@ -18,4 +15,3 @@ fetch("noticias.json")
       container.appendChild(div);
     });
   });
-</script>

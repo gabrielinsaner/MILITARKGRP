@@ -1,26 +1,31 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    const response = await fetch("https://kgrp-api.onrender.com/noticias");
-    const noticias = await response.json();
+function mostrarNoticias(noticias) {
+  const container = document.getElementById('noticias-container');
+  container.innerHTML = ''; // Limpa antes de adicionar novas
 
-    const container = document.querySelector("#noticiasContainer");
+  noticias.forEach(noticia => {
+    const card = document.createElement('div');
+    card.className = 'card';
 
-    noticias.forEach((noticia) => {
-      const card = document.createElement("div");
-      card.className = "card";
+    card.innerHTML = `
+      <img src="${noticia.imagem}" alt="Imagem da Notícia">
+      <h3>${noticia.titulo}</h3>
+      <p>${noticia.conteudo}</p>
+      <small>${noticia.data}</small>
+    `;
 
-      card.innerHTML = `
-        ${noticia.imagem ? `<img src="${noticia.imagem}" alt="Imagem da notícia">` : ''}
-        <div class="card-body">
-          <h3>${noticia.titulo}</h3>
-          <p>${noticia.conteudo}</p>
-          <span><i>${noticia.data}</i></span>
-        </div>
-      `;
+    container.appendChild(card);
+  });
+}
 
-      container.appendChild(card);
-    });
-  } catch (error) {
-    console.error("Erro ao carregar notícias:", error);
-  }
-});
+fetch('https://kgrp-api.onrender.com/noticias')
+  .then(res => res.json())
+  .then(mostrarNoticias)
+  .catch(() => {
+    fetch('noticias_backup.json')
+      .then(res => res.json())
+      .then(mostrarNoticias)
+      .catch(() => {
+        const container = document.getElementById('noticias-container');
+        container.innerHTML = '<p>⚠️ Não foi possível carregar as notícias.</p>';
+      });
+  });

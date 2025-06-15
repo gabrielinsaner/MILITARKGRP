@@ -1,14 +1,14 @@
 [
   {
-    "titulo": "Operação na Favela",
-    "conteudo": "A PM KGRP realizou uma operação tática na região da Rocinha.",
-    "imagem": "https://exemplo.com/imagem1.jpg",
+    "titulo": "TESTE HOJE",
+    "conteudo": "ESSA NOTICIA E PARA SE TESTADA OK",
+    "imagem": "",
     "data": "15/06/2025"
   },
   {
-    "titulo": "Formatura dos Novos Soldados",
-    "conteudo": "Hoje ocorreu a formatura dos novos recrutas da PM.",
-    "imagem": "https://exemplo.com/imagem2.jpg",
-    "data": "14/06/2025"
+    "titulo": "",
+    "conteudo": "",
+    "imagem": "",
+    "data": ""
   }
 ]

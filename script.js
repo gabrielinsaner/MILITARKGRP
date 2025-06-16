@@ -1,28 +1,26 @@
 <div id="noticias-container"></div>
 
 <script>
+const API_URL = "https://kgrp-api.onrender.com/noticias";
+const BACKUP_URL = "noticias.json"; // arquivo manual
+
 async function carregarNoticias() {
   const container = document.getElementById("noticias-container");
-  container.innerHTML = "<p>🔄 Carregando notícias...</p>";
+  container.innerHTML = "<p style='color:white;'>🕐 Carregando notícias...</p>";
 
   try {
-    // 1. Tenta buscar da API
-    const res = await fetch("https://kgrp-api.onrender.com/noticias");
+    const res = await fetch(API_URL, { cache: "no-store" });
     if (!res.ok) throw new Error("API offline");
-
     const noticias = await res.json();
     exibirNoticias(noticias);
-    console.log("✅ Notícias carregadas da API");
   } catch (err) {
-    console.warn("⚠️ API falhou, usando backup local...");
-    // 2. Fallback para JSON local
+    console.warn("⚠️ API fora do ar, carregando backup.");
     try {
-      const resBackup = await fetch("noticias.json");
+      const resBackup = await fetch(BACKUP_URL, { cache: "no-store" });
       const noticiasBackup = await resBackup.json();
       exibirNoticias(noticiasBackup);
-      console.log("✅ Notícias carregadas do backup local");
     } catch (erroBackup) {
-      container.innerHTML = "<p>❌ Erro ao carregar notícias.</p>";
+      container.innerHTML = "<p style='color:red;'>❌ Não foi possível carregar as notícias.</p>";
     }
   }
 }
@@ -34,19 +32,19 @@ function exibirNoticias(noticias) {
     const div = document.createElement("div");
     div.className = "noticia";
     div.innerHTML = `
-      <h2>${noticia.titulo}</h2>
-      <p>${noticia.data}</p>
+      <h2 style="color:white;">${noticia.titulo}</h2>
+      <p style="color:gray;">${noticia.data}</p>
       <img src="${noticia.imagem}" style="max-width: 100%; height: auto;" />
-      <p>${noticia.conteudo}</p>
-      <hr/>
+      <p style="color:white;">${noticia.conteudo}</p>
+      <hr style="border-color: #444;"/>
     `;
     container.appendChild(div);
   });
 }
 
-// Executa ao carregar o site
+// Primeira execução
 carregarNoticias();
 
-// Recarrega a cada 7 minutos (420000ms)
+// Atualiza automaticamente a cada 7 minutos
 setInterval(carregarNoticias, 7 * 60 * 1000);
 </script>

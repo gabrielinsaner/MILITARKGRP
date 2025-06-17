@@ -6,7 +6,6 @@
   <title>Notícias PM KGRP</title>
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* Seu estilo mantido 100% */
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
@@ -155,11 +154,14 @@
 
       try {
         const res = await fetch(API_URL, { cache: "no-store" });
-        if (!res.ok) throw new Error("API fora do ar");
         const noticias = await res.json();
+
+        // Se vier um array vazio, tenta o backup
+        if (!Array.isArray(noticias) || noticias.length === 0) throw new Error("Sem dados da API");
+
         exibirNoticias(noticias);
       } catch (err) {
-        console.warn("⚠️ API off, tentando carregar backup...");
+        console.warn("⚠️ API fora do ar ou sem dados. Carregando backup...");
         try {
           const resBackup = await fetch(BACKUP_URL, { cache: "no-store" });
           const noticiasBackup = await resBackup.json();
@@ -194,10 +196,10 @@
         .replace(/\n/g, '<br>');
     }
 
-    // Carrega ao abrir
+    // Carregar na entrada
     carregarNoticias();
 
-    // Recarrega a cada 4 minutos
+    // Atualizar a cada 4 minutos (240.000 ms)
     setInterval(carregarNoticias, 4 * 60 * 1000);
   </script>
 </body>

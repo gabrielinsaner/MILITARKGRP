@@ -1,3 +1,4 @@
+<!-- index.html atualizado -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -133,7 +134,7 @@
   </header>
 
   <section class="ocorrencias" id="noticiasContainer">
-    <!-- Notícias vão aparecer aqui -->
+    <!-- Notícias serão exibidas aqui -->
   </section>
 
   <div class="botao-central">
@@ -155,19 +156,16 @@
       try {
         const res = await fetch(API_URL, { cache: "no-store" });
         const noticias = await res.json();
-
-        // Se vier um array vazio, tenta o backup
-        if (!Array.isArray(noticias) || noticias.length === 0) throw new Error("Sem dados da API");
-
+        if (!Array.isArray(noticias) || noticias.length === 0) throw new Error("API sem dados");
         exibirNoticias(noticias);
-      } catch (err) {
-        console.warn("⚠️ API fora do ar ou sem dados. Carregando backup...");
+      } catch (erroAPI) {
+        console.warn("⚠️ Problema com a API, tentando backup...");
         try {
           const resBackup = await fetch(BACKUP_URL, { cache: "no-store" });
           const noticiasBackup = await resBackup.json();
           exibirNoticias(noticiasBackup);
         } catch (erroBackup) {
-          container.innerHTML = "<p style='color:red;'>❌ Não foi possível carregar nenhuma notícia.</p>";
+          container.innerHTML = "<p style='color:red;'>❌ Não foi possível carregar as notícias.</p>";
         }
       }
     }
@@ -191,15 +189,10 @@
     }
 
     function formatarTexto(texto) {
-      return texto
-        .replace(/\n{2,}/g, '</p><p>')
-        .replace(/\n/g, '<br>');
+      return texto.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>');
     }
 
-    // Carregar na entrada
     carregarNoticias();
-
-    // Atualizar a cada 4 minutos (240.000 ms)
     setInterval(carregarNoticias, 4 * 60 * 1000);
   </script>
 </body>

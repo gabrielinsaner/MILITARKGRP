@@ -1,4 +1,4 @@
-<!-- index.html atualizado -->
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -97,24 +97,6 @@
       font-size: 0.85rem;
       font-style: italic;
     }
-    .botao-central {
-      margin: 60px 0 40px;
-    }
-    .botao-central a {
-      background: #00ffcc;
-      color: #000;
-      padding: 16px 32px;
-      font-size: 1.1rem;
-      font-weight: bold;
-      text-decoration: none;
-      border-radius: 10px;
-      box-shadow: 0 0 15px #00ffcc99;
-      transition: 0.3s;
-    }
-    .botao-central a:hover {
-      background: #00ccaa;
-      transform: scale(1.05);
-    }
     footer {
       width: 100%;
       background: #000;
@@ -127,73 +109,70 @@
   </style>
 </head>
 <body>
-
   <header>
     <h1>NOTÍCIAS DA POLÍCIA MILITAR KGRP</h1>
     <p>Boletim Oficial | Ocorrências registradas e divulgadas pela corporação</p>
   </header>
 
-  <section class="ocorrencias" id="noticiasContainer">
-    <!-- Notícias serão exibidas aqui -->
-  </section>
-
-  <div class="botao-central">
-    <a href="fase1.html">IR PARA A CENTRAL</a>
-  </div>
+  <section class="ocorrencias" id="noticiasContainer"></section>
 
   <footer>
-    Atualizado automaticamente | Polícia Militar KGRP - RP Virtual MTA
+    Atualizado automaticamente | Última verificação: 17/06/2025 18:17 | Polícia Militar KGRP - RP Virtual MTA
   </footer>
 
-  <script>
-    const API_URL = "https://kgrp-api.onrender.com/noticias";
-    const BACKUP_URL = "noticias.json";
+<script>
+async function carregarNoticias() {
+  const container = document.getElementById("noticiasContainer");
+  container.innerHTML = "<p style='color:white;'>🕐 Carregando notícias...</p>";
 
-    async function carregarNoticias() {
-      const container = document.getElementById("noticiasContainer");
-      container.innerHTML = "<p style='color:white;'>🕐 Carregando notícias...</p>";
+  try {
+    const [apiRes, manualRes] = await Promise.all([
+      fetch("https://kgrp-api.onrender.com/noticias", { cache: "no-store" }),
+      fetch("noticias.json", { cache: "no-store" })
+    ]);
 
-      try {
-        const res = await fetch(API_URL, { cache: "no-store" });
-        const noticias = await res.json();
-        if (!Array.isArray(noticias) || noticias.length === 0) throw new Error("API sem dados");
-        exibirNoticias(noticias);
-      } catch (erroAPI) {
-        console.warn("⚠️ Problema com a API, tentando backup...");
-        try {
-          const resBackup = await fetch(BACKUP_URL, { cache: "no-store" });
-          const noticiasBackup = await resBackup.json();
-          exibirNoticias(noticiasBackup);
-        } catch (erroBackup) {
-          container.innerHTML = "<p style='color:red;'>❌ Não foi possível carregar as notícias.</p>";
-        }
-      }
-    }
+    const [apiNoticias, manualNoticias] = await Promise.all([
+      apiRes.ok ? apiRes.json() : [],
+      manualRes.ok ? manualRes.json() : []
+    ]);
 
-    function exibirNoticias(noticias) {
-      const container = document.getElementById("noticiasContainer");
-      container.innerHTML = "";
-      noticias.forEach(noticia => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-          ${noticia.imagem ? `<img src="${noticia.imagem}" alt="Imagem da notícia">` : ''}
-          <div class="card-body">
-            <h3>${noticia.titulo}</h3>
-            <p>${formatarTexto(noticia.conteudo)}</p>
-            <span>${noticia.data}</span>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
+    const todas = [...apiNoticias, ...manualNoticias];
 
-    function formatarTexto(texto) {
-      return texto.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>');
-    }
+    const vistas = new Set();
+    const unicas = todas.filter(n => {
+      const chave = n.titulo + "|" + n.data;
+      if (vistas.has(chave)) return false;
+      vistas.add(chave);
+      return true;
+    });
 
-    carregarNoticias();
-    setInterval(carregarNoticias, 4 * 60 * 1000);
-  </script>
+    container.innerHTML = "";
+    unicas.forEach(n => {
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `
+        ${n.imagem ? `<img src="${n.imagem}" alt="Imagem da notícia">` : ""}
+        <div class="card-body">
+          <h3>${n.titulo}</h3>
+          <p>${formatarTexto(n.conteudo)}</p>
+          <span>${n.data}</span>
+        </div>
+      `;
+      container.appendChild(div);
+    });
+  } catch (e) {
+    container.innerHTML = "<p style='color:red;'>❌ Não foi possível carregar as notícias.</p>";
+    console.error("Erro:", e);
+  }
+}
+
+function formatarTexto(texto) {
+  return texto.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>');
+}
+
+carregarNoticias();
+setInterval(carregarNoticias, 4 * 60 * 1000);
+</script>
+
 </body>
 </html>

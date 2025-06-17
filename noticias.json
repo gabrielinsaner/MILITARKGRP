@@ -4,5 +4,11 @@
     "conteudo": "Essa é a primeira notícia oficial.",
     "imagem": "https://via.placeholder.com/600x200.png?text=Noticia",
     "data": "16/06/2025"
+  },
+  {
+    "titulo": "TESTE TESTE",
+    "conteudo": "oioioioi",
+    "imagem": "",
+    "data": "17/06/2025"
   }
 ]

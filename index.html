@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -7,6 +6,7 @@
   <title>Notícias PM KGRP</title>
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    /* Seu estilo mantido 100% */
     body {
       margin: 0;
       font-family: 'Inter', sans-serif;
@@ -71,12 +71,11 @@
     }
     .card img {
       width: 100%;
-      height: 250px; /* define uma altura padrão */
+      height: 250px;
       object-fit: cover;
       display: block;
       border-bottom: 1px solid #222;
     }
-
     .card-body {
       padding: 20px;
     }
@@ -128,13 +127,14 @@
   </style>
 </head>
 <body>
+
   <header>
     <h1>NOTÍCIAS DA POLÍCIA MILITAR KGRP</h1>
     <p>Boletim Oficial | Ocorrências registradas e divulgadas pela corporação</p>
   </header>
 
   <section class="ocorrencias" id="noticiasContainer">
-    <!-- Notícias serão carregadas automaticamente -->
+    <!-- Notícias vão aparecer aqui -->
   </section>
 
   <div class="botao-central">
@@ -142,17 +142,40 @@
   </div>
 
   <footer>
-    Atualizado diariamente | Polícia Militar KGRP - RP Virtual MTA
+    Atualizado automaticamente | Polícia Militar KGRP - RP Virtual MTA
   </footer>
 
-<script>
-  fetch('https://kgrp-api.onrender.com/noticias')
-    .then(response => response.json())
-    .then(data => {
-      const container = document.getElementById('noticiasContainer');
-      data.forEach(noticia => {
-        const card = document.createElement('div');
-        card.className = 'card';
+  <script>
+    const API_URL = "https://kgrp-api.onrender.com/noticias";
+    const BACKUP_URL = "noticias.json";
+
+    async function carregarNoticias() {
+      const container = document.getElementById("noticiasContainer");
+      container.innerHTML = "<p style='color:white;'>🕐 Carregando notícias...</p>";
+
+      try {
+        const res = await fetch(API_URL, { cache: "no-store" });
+        if (!res.ok) throw new Error("API fora do ar");
+        const noticias = await res.json();
+        exibirNoticias(noticias);
+      } catch (err) {
+        console.warn("⚠️ API off, tentando carregar backup...");
+        try {
+          const resBackup = await fetch(BACKUP_URL, { cache: "no-store" });
+          const noticiasBackup = await resBackup.json();
+          exibirNoticias(noticiasBackup);
+        } catch (erroBackup) {
+          container.innerHTML = "<p style='color:red;'>❌ Não foi possível carregar nenhuma notícia.</p>";
+        }
+      }
+    }
+
+    function exibirNoticias(noticias) {
+      const container = document.getElementById("noticiasContainer");
+      container.innerHTML = "";
+      noticias.forEach(noticia => {
+        const card = document.createElement("div");
+        card.className = "card";
         card.innerHTML = `
           ${noticia.imagem ? `<img src="${noticia.imagem}" alt="Imagem da notícia">` : ''}
           <div class="card-body">
@@ -163,39 +186,19 @@
         `;
         container.appendChild(card);
       });
-    })
-    .catch(error => {
-      console.error('Erro ao carregar notícias:', error);
-    });
-</script>
-<script>
-  function formatarTexto(texto) {
-    // Duas quebras de linha = parágrafo
-    texto = texto.replace(/\n{2,}/g, '</p><p>');
-    // Uma quebra de linha = <br>
-    texto = texto.replace(/\n/g, '<br>');
-    return texto;
-  }
-</script>
-<script>
-fetch("https://raw.githubusercontent.com/SEU_USUARIO/SEU_REPOSITORIO/main/noticias.json")
-  .then(res => res.json())
-  .then(noticias => {
-    const container = document.getElementById("noticias-container");
-    noticias.forEach(n => {
-      const div = document.createElement("div");
-      div.className = "noticia";
-      div.innerHTML = `
-        <h2>${n.titulo}</h2>
-        <p>${n.data}</p>
-        <img src="${n.imagem}" style="max-width: 100%; height: auto;" />
-        <p>${n.conteudo}</p>
-        <hr/>
-      `;
-      container.appendChild(div);
-    });
-  });
-</script>
+    }
 
+    function formatarTexto(texto) {
+      return texto
+        .replace(/\n{2,}/g, '</p><p>')
+        .replace(/\n/g, '<br>');
+    }
+
+    // Carrega ao abrir
+    carregarNoticias();
+
+    // Recarrega a cada 4 minutos
+    setInterval(carregarNoticias, 4 * 60 * 1000);
+  </script>
 </body>
 </html>

@@ -1,1 +1,8 @@
-[{"titulo":"teste","conteudo":"asdfghjk","imagem":"","data":"16/06/2025"}]
+[
+  {
+    "titulo": "Sistema Reserva",
+    "conteudo": "Essa notícia está salva manualmente no site.",
+    "imagem": "https://via.placeholder.com/600x200.png?text=Backup",
+    "data": "16/06/2025"
+  }
+]

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Denúncia - PM KGRP</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: radial-gradient(circle at center, #0a0a0a 40%, #000000);
+      font-family: "Share Tech Mono", monospace;
+      color: #fff;
+      overflow-y: auto;
+      height: 100vh;
+    }
+    .tela-aviso,
+    .formulario {
+      max-width: 600px;
+      margin: 40px auto;
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px solid #ff0000;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px #ff0000;
+      animation: fadeIn 1s ease;
+    }
+    h1,
+    p,
+    label,
+    button {
+      color: #fff;
+    }
+    h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    p {
+      font-size: 16px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin: 15px 0 8px;
+      font-weight: bold;
+    }
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      background: #111;
+      border: 1px solid #ff0000;
+      color: #fff;
+      border-radius: 8px;
+      font-size: 14px;
+      resize: vertical;
+    }
+    button {
+      display: block;
+      margin: 30px auto 0;
+      background: #ff0000;
+      border: none;
+      padding: 14px 28px;
+      font-size: 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-weight: bold;
+      letter-spacing: 1px;
+      width: 100%;
+      max-width: 250px;
+    }
+    button:hover {
+      background: #b30000;
+    }
+    .hidden {
+      display: none;
+    }
+    .barra-progresso {
+      background: #333;
+      border-radius: 10px;
+      overflow: hidden;
+      height: 20px;
+      margin-top: 10px;
+    }
+    .progresso {
+      height: 100%;
+      width: 0;
+      background: #ff0000;
+      animation: progressoAnim 3s forwards;
+    }
+    @keyframes progressoAnim {
+      to {
+        width: 100%;
+      }
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    #voltarMenuBtn {
+      margin-top: 25px;
+      background: #222;
+      border: 2px solid #ff0000;
+      color: #ff0000;
+      font-weight: bold;
+      letter-spacing: 1.2px;
+      width: 100%;
+      max-width: 250px;
+    }
+    #voltarMenuBtn:hover {
+      background: #ff0000;
+      color: #111;
+      border-color: #b30000;
+    }
+  </style>
+</head>
+<body>
+  <div id="aviso" class="tela-aviso">
+    <h1>⚠️ Denúncia é coisa séria</h1>
+    <p>Falsas acusações serão punidas conforme o Código Disciplinar Militar.</p>
+    <button id="prosseguirBtn">Prosseguir para Denúncia</button>
+  </div>
+
+  <div id="formularioDenuncia" class="formulario hidden">
+    <form id="denunciaForm">
+      <label>Nome (opcional): <input type="text" name="nome" /></label>
+      <label>RG ou ID do servidor: <input type="text" name="id" required /></label>
+      <label>Nome do policial acusado: <input type="text" name="policial" required /></label>
+      <label>Data e hora aproximada: <input type="datetime-local" name="dataHora" required /></label>
+
+      <label>Tipo de abuso:
+        <select name="tipo" required>
+          <option value="">-- Selecione --</option>
+          <option>Agressão verbal</option>
+          <option>Agressão física</option>
+          <option>Prisão sem motivo</option>
+          <option>Abuso de patente</option>
+          <option>Corrupção</option>
+          <option>Outros</option>
+        </select>
+      </label>
+
+      <label>Descrição detalhada:
+        <textarea
+          name="descricao"
+          maxlength="2000"
+          required
+          rows="6"
+          placeholder="Descreva detalhadamente o ocorrido"
+        ></textarea>
+      </label>
+
+      <label>Link da prova (imagem, vídeo ou outro): <input type="url" name="linkProva" placeholder="https://exemplo.com/prova.jpg ou https://youtu.be/exemplo" /></label>
+
+      <label>Deseja permanecer anônimo? <input type="checkbox" name="anonimo" /></label>
+
+      <button type="submit" id="enviarBtn">Enviar Denúncia</button>
+    </form>
+
+    <div id="progresso" class="hidden">
+      <p>Enviando denúncia...</p>
+      <div class="barra-progresso">
+        <div class="progresso"></div>
+      </div>
+    </div>
+
+    <div id="mensagemSucesso" class="hidden">
+      <p>Sua denúncia foi enviada com sucesso e será analisada pela Corregedoria.</p>
+      <p>Protocolo: <strong id="protocolo"></strong></p>
+      <button id="voltarMenuBtn">Voltar para o Menu</button>
+    </div>
+  </div>
+
+  <script>
+    const aviso = document.getElementById("aviso");
+    const formulario = document.getElementById("formularioDenuncia");
+    const prosseguirBtn = document.getElementById("prosseguirBtn");
+
+    prosseguirBtn.onclick = () => {
+      aviso.classList.add("hidden");
+      formulario.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    };
+
+    const form = document.getElementById("denunciaForm");
+    const progresso = document.getElementById("progresso");
+    const mensagemSucesso = document.getElementById("mensagemSucesso");
+    const protocolo = document.getElementById("protocolo");
+    const voltarMenuBtn = document.getElementById("voltarMenuBtn");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      form.classList.add("hidden");
+      progresso.classList.remove("hidden");
+
+      const formData = new FormData(form);
+      const obj = Object.fromEntries(formData);
+      obj.anonimo = obj.anonimo === "on" ? true : false;
+      const protocoloId = "KGRP-" + Math.floor(Math.random() * 100000);
+      obj.protocolo = protocoloId;
+
+      try {
+        const response = await fetch("https://api-denuncias.onrender.com/webhook-denuncia", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(obj),
+        });
+
+        if (!response.ok) throw new Error("Erro ao enviar denúncia");
+
+        setTimeout(() => {
+          progresso.classList.add("hidden");
+          protocolo.textContent = protocoloId;
+          mensagemSucesso.classList.remove("hidden");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }, 1500);
+      } catch (error) {
+        alert("Falha ao enviar a denúncia. Tente novamente mais tarde.");
+        form.classList.remove("hidden");
+        progresso.classList.add("hidden");
+      }
+    });
+
+    voltarMenuBtn.onclick = () => {
+      window.location.href = "fase5.html"; // Ajuste para o link correto do menu
+    };
+  </script>
+</body>
+</html>

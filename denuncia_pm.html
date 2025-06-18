@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Denúncia Interna - PM KGRP</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+
+  body, html {
+    height: 100%;
+    font-family: 'Orbitron', sans-serif;
+    background: #0a0a0f;
+    color: #eee;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background: #0a0a0f;
+  }
+
+  .container {
+    position: relative;
+    background: rgba(5, 10, 20, 0.85);
+    border: 2px solid #bb2525;
+    border-radius: 15px;
+    padding: 30px 40px;
+    width: 100%;
+    max-width: 720px;
+    box-shadow:
+      0 0 10px #bb2525cc,
+      0 0 30px #bb2525aa,
+      inset 0 0 10px #bb2525dd;
+    z-index: 2;
+    overflow-y: auto;
+    max-height: 90vh;
+  }
+
+  h1 {
+    text-align: center;
+    color: #bb2525;
+    margin-bottom: 30px;
+    font-weight: 700;
+    text-shadow: 0 0 10px #bb2525;
+  }
+
+  h2 {
+    color: #ff4545;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #bb2525;
+    padding-bottom: 5px;
+  }
+
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+
+  label {
+    flex-basis: 100%;
+    font-size: 1rem;
+    color: #f0f0f0cc;
+    margin-bottom: 5px;
+    user-select: none;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  input[type="time"],
+  input[type="datetime-local"],
+  textarea,
+  select,
+  input[type="password"] {
+    flex-basis: 100%;
+    padding: 12px 15px;
+    font-size: 1rem;
+    background: #111822;
+    border: 1.5px solid #bb2525;
+    border-radius: 8px;
+    color: #eee;
+    transition: border-color 0.3s ease;
+    resize: vertical;
+  }
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  input[type="time"]:focus,
+  input[type="datetime-local"]:focus,
+  input[type="password"]:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+    border-color: #ff4545;
+    box-shadow: 0 0 10px #ff4545;
+  }
+
+  textarea {
+    min-height: 110px;
+    font-family: 'Orbitron', monospace;
+  }
+
+  select {
+    max-width: 100%;
+  }
+
+  button {
+    margin-top: 25px;
+    padding: 15px 30px;
+    background: #bb2525;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #eee;
+    cursor: pointer;
+    align-self: center;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 0 15px #bb2525bb;
+  }
+  button:hover {
+    background: #ff4545;
+    box-shadow: 0 0 30px #ff4545;
+  }
+
+  .msg-sucesso {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    background: #22bb33dd;
+    border: 2px solid #22bb33aa;
+    padding: 20px 30px;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    color: #e0ffe0;
+    box-shadow:
+      0 0 10px #22bb33cc,
+      0 0 30px #22bb33bb;
+    z-index: 9999;
+    animation: fadeSlide 3s forwards;
+  }
+
+  @keyframes fadeSlide {
+    0% {opacity: 0; transform: translateX(100%);}
+    10% {opacity: 1; transform: translateX(0);}
+    90% {opacity: 1; transform: translateX(0);}
+    100% {opacity: 0; transform: translateX(100%);}
+  }
+
+  .container::-webkit-scrollbar {
+    width: 8px;
+  }
+  .container::-webkit-scrollbar-track {
+    background: #111822;
+    border-radius: 10px;
+  }
+  .container::-webkit-scrollbar-thumb {
+    background: #bb2525cc;
+    border-radius: 10px;
+  }
+
+  /* Tela de senha (overlay) */
+  #senhaOverlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #0a0a0fdd;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+  #senhaOverlay form {
+    background: rgba(5, 10, 20, 0.95);
+    padding: 35px 50px;
+    border-radius: 20px;
+    border: 3px solid #bb2525;
+    box-shadow:
+      0 0 30px #bb2525cc,
+      inset 0 0 10px #bb2525dd;
+    max-width: 380px;
+    width: 90vw;
+  }
+
+  #senhaOverlay h2 {
+    color: #ff4545;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 2rem;
+    text-shadow: 0 0 12px #bb2525;
+  }
+
+  #senhaInput {
+    font-size: 1.4rem;
+    padding: 14px 15px;
+    border-radius: 12px;
+    border: 2px solid #bb2525;
+    width: 100%;
+    background: #111822;
+    color: #eee;
+    margin-bottom: 20px;
+    box-shadow: inset 0 0 10px #bb2525cc;
+  }
+  #senhaInput:focus {
+    outline: none;
+    border-color: #ff4545;
+    box-shadow: 0 0 12px #ff4545;
+  }
+
+  #senhaError {
+    color: #ff5555;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 12px;
+    letter-spacing: 1.2px;
+    text-shadow: 0 0 5px #ff5555bb;
+    user-select: none;
+  }
+
+</style>
+</head>
+<body>
+
+<canvas id="fundo"></canvas>
+
+<!-- Tela de senha -->
+<div id="senhaOverlay" role="dialog" aria-modal="true" aria-labelledby="senhaTitle" aria-describedby="senhaDesc">
+  <form id="senhaForm" autocomplete="off" spellcheck="false">
+    <h2 id="senhaTitle">Acesso Restrito</h2>
+    <div id="senhaError" aria-live="assertive" role="alert" style="display:none;">Acesso Negado. Senha incorreta.</div>
+    <input type="password" id="senhaInput" placeholder="Digite a senha para continuar" required aria-required="true" aria-describedby="senhaDesc" />
+    <button type="submit" aria-label="Enviar senha para acessar o formulário">Entrar</button>
+  </form>
+</div>
+
+<div class="container" role="main" aria-label="Formulário de Denúncia Interna" style="display:none;">
+  <h1>Denúncia Interna - PM KGRP</h1>
+  <form id="denunciaForm" novalidate>
+
+    <h2>Dados do Denunciante</h2>
+
+    <label for="nomeDenunciante">Nome completo do denunciante *</label>
+    <input type="text" id="nomeDenunciante" name="nomeDenunciante" required autocomplete="off" />
+
+    <label for="rgDenunciante">RG do denunciante *</label>
+    <input type="text" id="rgDenunciante" name="rgDenunciante" required autocomplete="off" />
+
+    <label for="patenteDenunciante">Patente do denunciante *</label>
+    <select id="patenteDenunciante" name="patenteDenunciante" required>
+      <option value="" disabled selected>Selecione a patente</option>
+      <option>Aspirante</option>
+      <option>Soldado</option>
+      <option>Cabo</option>
+      <option>3º Sargento</option>
+      <option>2º Sargento</option>
+      <option>1º Sargento</option>
+      <option>Subtenente</option>
+      <option>2º Tenente</option>
+      <option>1º Tenente</option>
+      <option>Capitão</option>
+      <option>Major</option>
+      <option>Tenente Coronel</option>
+      <option>Coronel</option>
+    </select>
+
+    <label for="divisaoDenunciante">Divisão do denunciante *</label>
+    <select id="divisaoDenunciante" name="divisaoDenunciante" required>
+      <option value="" disabled selected>Selecione a divisão</option>
+      <option>Força Tática</option>
+      <option>ROTA</option>
+      <option>ROCAM</option>
+      <option>GCM</option>
+      <option>ROMU</option>
+      <option>Polícia Rodoviária</option>
+      <option>Patrulhamento Regular</option>
+      <option>Outra</option>
+    </select>
+
+    <h2>Dados do Acusado</h2>
+
+    <label for="nomeAcusado">Nome completo do acusado *</label>
+    <input type="text" id="nomeAcusado" name="nomeAcusado" required autocomplete="off" />
+
+    <label for="rgAcusado">RG do acusado *</label>
+    <input type="text" id="rgAcusado" name="rgAcusado" required autocomplete="off" />
+
+    <label for="patenteAcusado">Patente do acusado *</label>
+    <select id="patenteAcusado" name="patenteAcusado" required>
+      <option value="" disabled selected>Selecione a patente</option>
+      <option>Aspirante</option>
+      <option>Soldado</option>
+      <option>Cabo</option>
+      <option>3º Sargento</option>
+      <option>2º Sargento</option>
+      <option>1º Sargento</option>
+      <option>Subtenente</option>
+      <option>2º Tenente</option>
+      <option>1º Tenente</option>
+      <option>Capitão</option>
+      <option>Major</option>
+      <option>Tenente Coronel</option>
+      <option>Coronel</option>
+    </select>
+
+    <label for="divisaoAcusado">Divisão que o acusado opera *</label>
+    <select id="divisaoAcusado" name="divisaoAcusado" required>
+      <option value="" disabled selected>Selecione a divisão</option>
+      <option>Força Tática</option>
+      <option>ROTA</option>
+      <option>ROCAM</option>
+      <option>GCM</option>
+      <option>ROMU</option>
+      <option>Polícia Rodoviária</option>
+      <option>Patrulhamento Regular</option>
+      <option>Outra</option>
+    </select>
+
+    <h2>Detalhes da Ocorrência</h2>
+
+    <label for="dataHoraFato">Data e hora do fato *</label>
+    <input type="datetime-local" id="dataHoraFato" name="dataHoraFato" required />
+
+    <label for="localFato">Local da ocorrência *</label>
+    <input type="text" id="localFato" name="localFato" required autocomplete="off" />
+
+    <label for="motivoDenuncia">Motivo da denúncia *</label>
+    <select id="motivoDenuncia" name="motivoDenuncia" required>
+      <option value="" disabled selected>Selecione o motivo</option>
+      <option>Abuso de autoridade</option>
+      <option>Conduta antirregulamentar</option>
+      <option>Ato de corrupção</option>
+      <option>Desrespeito à hierarquia</option>
+      <option>Uso indevido do cargo</option>
+      <option>Negligência no serviço</option>
+      <option>Falta de profissionalismo</option>
+      <option>Assédio moral</option>
+      <option>Assédio sexual</option>
+      <option>Violência física</option>
+      <option>Má conduta com civis</option>
+      <option>Uso indevido de armas</option>
+      <option>Falta de presença</option>
+      <option>Manipulação de evidências</option>
+      <option>Recusa de ordens superiores</option>
+      <option>Outros</option>
+    </select>
+
+    <label for="descricaoDetalhada">Descrição detalhada *</label>
+    <textarea id="descricaoDetalhada" name="descricaoDetalhada" required placeholder="Descreva detalhadamente a denúncia..."></textarea>
+
+    <label for="linkProvas">Link para provas *</label>
+    <input type="text" id="linkProvas" name="linkProvas" placeholder="URL das provas" required autocomplete="off" />
+
+    <label for="contato">Contato para retorno (opcional)</label>
+    <input type="text" id="contato" name="contato" placeholder="Telefone ou e-mail" autocomplete="off" />
+
+    <button type="submit" aria-label="Enviar denúncia interna">Enviar Denúncia</button>
+  </form>
+</div>
+
+<script>
+  // Fundo animado
+  const canvas = document.getElementById('fundo');
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let points = [];
+
+  function initCanvas() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    points = [];
+    const density = 100;
+
+    for (let i = 0; i < density; i++) {
+      points.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        radius: 2 + Math.random() * 2
+      });
+    }
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    ctx.fillStyle = '#0a0a0f';
+    ctx.fillRect(0, 0, width, height);
+
+    points.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > width) p.vx *= -1;
+      if (p.y < 0 || p.y > height) p.vy *= -1;
+
+      let grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius);
+      grad.addColorStop(0, 'rgba(187,37,37,0.9)');
+      grad.addColorStop(1, 'rgba(187,37,37,0)');
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+      ctx.fill();
+    });
+
+    for (let i = 0; i < points.length; i++) {
+      for (let j = i + 1; j < points.length; j++) {
+        let p1 = points[i];
+        let p2 = points[j];
+        let dx = p1.x - p2.x;
+        let dy = p1.y - p2.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 120) {
+          let alpha = 1 - dist / 120;
+          ctx.strokeStyle = `rgba(187,37,37,${alpha * 0.2})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(p1.x, p1.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => {
+    initCanvas();
+  });
+
+  initCanvas();
+  draw();
+
+  // Controle da senha
+  const senhaOverlay = document.getElementById('senhaOverlay');
+  const senhaForm = document.getElementById('senhaForm');
+  const senhaInput = document.getElementById('senhaInput');
+  const senhaError = document.getElementById('senhaError');
+  const container = document.querySelector('.container');
+
+  // Defina a senha aqui (mude para a senha real)
+  const senhaCorreta = 'KGRP2025';
+
+  senhaForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const valorSenha = senhaInput.value.trim();
+
+    if (valorSenha === senhaCorreta) {
+      senhaError.style.display = 'none';
+      senhaInput.value = '';
+      senhaOverlay.style.display = 'none';
+      container.style.display = 'block';
+      senhaInput.blur();
+    } else {
+      senhaError.style.display = 'block';
+      senhaInput.value = '';
+      senhaInput.focus();
+    }
+  });
+
+  // Validação e envio do formulário
+  const denunciaForm = document.getElementById('denunciaForm');
+
+  denunciaForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // Verificar se o formulário é válido
+    if (!denunciaForm.checkValidity()) {
+      denunciaForm.reportValidity();
+      return;
+    }
+
+    // Preparar dados para envio
+    const dados = {
+      nomeDenunciante: denunciaForm.nomeDenunciante.value.trim(),
+      rgDenunciante: denunciaForm.rgDenunciante.value.trim(),
+      patenteDenunciante: denunciaForm.patenteDenunciante.value,
+      divisaoDenunciante: denunciaForm.divisaoDenunciante.value,
+      nomeAcusado: denunciaForm.nomeAcusado.value.trim(),
+      rgAcusado: denunciaForm.rgAcusado.value.trim(),
+      patenteAcusado: denunciaForm.patenteAcusado.value,
+      divisaoAcusado: denunciaForm.divisaoAcusado.value,
+      dataHoraFato: denunciaForm.dataHoraFato.value,
+      localFato: denunciaForm.localFato.value.trim(),
+      motivoDenuncia: denunciaForm.motivoDenuncia.value,
+      descricaoDetalhada: denunciaForm.descricaoDetalhada.value.trim(),
+      linkProvas: denunciaForm.linkProvas.value.trim(),
+      contato: denunciaForm.contato.value.trim()
+    };
+
+    // Você pode modificar essa parte para enviar para um servidor via fetch/AJAX
+    // Aqui vamos só simular o envio e mostrar mensagem de sucesso
+
+    console.log('Denúncia enviada:', dados);
+
+    // Mostrar mensagem de sucesso
+    const msg = document.createElement('div');
+    msg.className = 'msg-sucesso';
+    msg.textContent = 'Denúncia enviada com sucesso! Obrigado pela colaboração.';
+    document.body.appendChild(msg);
+
+    // Resetar formulário
+    denunciaForm.reset();
+
+    // Remover mensagem após 3 segundos
+    setTimeout(() => {
+      msg.remove();
+    }, 3000);
+  });
+</script>
+<div style="text-align: center; margin-top: 40px;">
+  <button onclick="window.location.href='fase5.html'" style="
+    background-color: #111;
+    border: 2px solid #ff0000;
+    color: white;
+    padding: 14px 28px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: 0.3s;
+  " onmouseover="this.style.backgroundColor='#ff0000'; this.style.color='#000'" onmouseout="this.style.backgroundColor='#111'; this.style.color='white'">
+    Ir para Central
+  </button>
+</div>
+
+</body>
+</html>

@@ -6,7 +6,6 @@
   <title>Denúncia - PM KGRP</title>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
   <style>
-    /* Seu CSS antigo, mantive igual */
     * {
       margin: 0;
       padding: 0;
@@ -179,7 +178,6 @@
     const protocolo = document.getElementById("protocolo");
     const voltarMenuBtn = document.getElementById("voltarMenu");
 
-    // ALTERE para a URL real da sua API (que está rodando e exposta publicamente)
     const API_URL = "https://api-denuncias.onrender.com/denuncia";
 
     prosseguirBtn.onclick = () => {
@@ -189,7 +187,6 @@
     };
 
     voltarMenuBtn.onclick = () => {
-      // Aqui pode mudar para onde quiser depois de enviar
       window.location.href = "fase5.html";
     };
 
@@ -203,8 +200,6 @@
       const obj = Object.fromEntries(formData.entries());
 
       obj.anonimo = formData.get("anonimo") === "on";
-
-      // Gera protocolo
       const protocoloId = "KGRP-" + Math.floor(Math.random() * 100000);
       obj.protocolo = protocoloId;
 

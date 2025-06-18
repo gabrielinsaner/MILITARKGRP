@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
 <title>Denúncia Interna - PM KGRP</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
@@ -20,9 +21,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
   }
 
-  canvas {
+  canvas#senhaCanvas {
     position: fixed;
     top: 0; left: 0;
     width: 100%;
@@ -32,6 +34,7 @@
   }
 
   .container {
+    margin: auto;
     position: relative;
     background: rgba(5, 10, 20, 0.85);
     border: 2px solid #bb2525;
@@ -182,6 +185,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
     flex-direction: column;
   }
 
@@ -235,146 +239,123 @@
 </style>
 </head>
 <body>
-
-<canvas id="fundo"></canvas>
-
 <!-- Tela de senha -->
-<div id="senhaOverlay" role="dialog" aria-modal="true" aria-labelledby="senhaTitle" aria-describedby="senhaDesc">
-  <form id="senhaForm" autocomplete="off" spellcheck="false">
-    <h2 id="senhaTitle">Acesso Restrito</h2>
-    <div id="senhaError" aria-live="assertive" role="alert" style="display:none;">Acesso Negado. Senha incorreta.</div>
-    <input type="password" id="senhaInput" placeholder="Digite a senha para continuar" required aria-required="true" aria-describedby="senhaDesc" />
-    <button type="submit" aria-label="Enviar senha para acessar o formulário">Entrar</button>
-  </form>
+<div aria-describedby="senhaDesc" aria-labelledby="senhaTitle" aria-modal="true" id="senhaOverlay" role="dialog" style="display: flex; justify-content: center; align-items: center; flex-direction: column; height: 100vh; text-align: center; position: relative;"><canvas id="senhaCanvas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;"></canvas>
+<form autocomplete="off" id="senhaForm" spellcheck="false" style="margin: 0 auto; z-index: 2;">
+<h2 id="senhaTitle">Acesso Restrito</h2>
+<div aria-live="assertive" id="senhaError" role="alert" style="display:none;">Acesso Negado. Senha incorreta.</div>
+<input aria-describedby="senhaDesc" aria-required="true" id="senhaInput" placeholder="Digite a senha para continuar" required="" type="password"/>
+<button aria-label="Enviar senha para acessar o formulário" type="submit">Entrar</button>
+</form>
 </div>
-
-<div class="container" role="main" aria-label="Formulário de Denúncia Interna" style="display:none;">
-  <h1>Denúncia Interna - PM KGRP</h1>
-  <form id="denunciaForm" novalidate>
-
-    <h2>Dados do Denunciante</h2>
-
-    <label for="nomeDenunciante">Nome completo do denunciante *</label>
-    <input type="text" id="nomeDenunciante" name="nomeDenunciante" required autocomplete="off" />
-
-    <label for="rgDenunciante">RG do denunciante *</label>
-    <input type="text" id="rgDenunciante" name="rgDenunciante" required autocomplete="off" />
-
-    <label for="patenteDenunciante">Patente do denunciante *</label>
-    <select id="patenteDenunciante" name="patenteDenunciante" required>
-      <option value="" disabled selected>Selecione a patente</option>
-      <option>Aspirante</option>
-      <option>Soldado</option>
-      <option>Cabo</option>
-      <option>3º Sargento</option>
-      <option>2º Sargento</option>
-      <option>1º Sargento</option>
-      <option>Subtenente</option>
-      <option>2º Tenente</option>
-      <option>1º Tenente</option>
-      <option>Capitão</option>
-      <option>Major</option>
-      <option>Tenente Coronel</option>
-      <option>Coronel</option>
-    </select>
-
-    <label for="divisaoDenunciante">Divisão do denunciante *</label>
-    <select id="divisaoDenunciante" name="divisaoDenunciante" required>
-      <option value="" disabled selected>Selecione a divisão</option>
-      <option>Força Tática</option>
-      <option>ROTA</option>
-      <option>ROCAM</option>
-      <option>GCM</option>
-      <option>ROMU</option>
-      <option>Polícia Rodoviária</option>
-      <option>Patrulhamento Regular</option>
-      <option>Outra</option>
-    </select>
-
-    <h2>Dados do Acusado</h2>
-
-    <label for="nomeAcusado">Nome completo do acusado *</label>
-    <input type="text" id="nomeAcusado" name="nomeAcusado" required autocomplete="off" />
-
-    <label for="rgAcusado">RG do acusado *</label>
-    <input type="text" id="rgAcusado" name="rgAcusado" required autocomplete="off" />
-
-    <label for="patenteAcusado">Patente do acusado *</label>
-    <select id="patenteAcusado" name="patenteAcusado" required>
-      <option value="" disabled selected>Selecione a patente</option>
-      <option>Aspirante</option>
-      <option>Soldado</option>
-      <option>Cabo</option>
-      <option>3º Sargento</option>
-      <option>2º Sargento</option>
-      <option>1º Sargento</option>
-      <option>Subtenente</option>
-      <option>2º Tenente</option>
-      <option>1º Tenente</option>
-      <option>Capitão</option>
-      <option>Major</option>
-      <option>Tenente Coronel</option>
-      <option>Coronel</option>
-    </select>
-
-    <label for="divisaoAcusado">Divisão que o acusado opera *</label>
-    <select id="divisaoAcusado" name="divisaoAcusado" required>
-      <option value="" disabled selected>Selecione a divisão</option>
-      <option>Força Tática</option>
-      <option>ROTA</option>
-      <option>ROCAM</option>
-      <option>GCM</option>
-      <option>ROMU</option>
-      <option>Polícia Rodoviária</option>
-      <option>Patrulhamento Regular</option>
-      <option>Outra</option>
-    </select>
-
-    <h2>Detalhes da Ocorrência</h2>
-
-    <label for="dataHoraFato">Data e hora do fato *</label>
-    <input type="datetime-local" id="dataHoraFato" name="dataHoraFato" required />
-
-    <label for="localFato">Local da ocorrência *</label>
-    <input type="text" id="localFato" name="localFato" required autocomplete="off" />
-
-    <label for="motivoDenuncia">Motivo da denúncia *</label>
-    <select id="motivoDenuncia" name="motivoDenuncia" required>
-      <option value="" disabled selected>Selecione o motivo</option>
-      <option>Abuso de autoridade</option>
-      <option>Conduta antirregulamentar</option>
-      <option>Ato de corrupção</option>
-      <option>Desrespeito à hierarquia</option>
-      <option>Uso indevido do cargo</option>
-      <option>Negligência no serviço</option>
-      <option>Falta de profissionalismo</option>
-      <option>Assédio moral</option>
-      <option>Assédio sexual</option>
-      <option>Violência física</option>
-      <option>Má conduta com civis</option>
-      <option>Uso indevido de armas</option>
-      <option>Falta de presença</option>
-      <option>Manipulação de evidências</option>
-      <option>Recusa de ordens superiores</option>
-      <option>Outros</option>
-    </select>
-
-    <label for="descricaoDetalhada">Descrição detalhada *</label>
-    <textarea id="descricaoDetalhada" name="descricaoDetalhada" required placeholder="Descreva detalhadamente a denúncia..."></textarea>
-
-    <label for="linkProvas">Link para provas *</label>
-    <input type="text" id="linkProvas" name="linkProvas" placeholder="URL das provas" required autocomplete="off" />
-
-    <label for="contato">Contato para retorno (opcional)</label>
-    <input type="text" id="contato" name="contato" placeholder="Telefone ou e-mail" autocomplete="off" />
-
-    <button type="submit" aria-label="Enviar denúncia interna">Enviar Denúncia</button>
-  </form>
+<div aria-label="Formulário de Denúncia Interna" class="container" role="main" style="display:none;">
+<h1>Denúncia Interna - PM KGRP</h1>
+<form id="denunciaForm" novalidate="">
+<h2>Dados do Denunciante</h2>
+<label for="nomeDenunciante">Nome completo do denunciante *</label>
+<input autocomplete="off" id="nomeDenunciante" name="nomeDenunciante" required="" type="text"/>
+<label for="rgDenunciante">RG do denunciante *</label>
+<input autocomplete="off" id="rgDenunciante" name="rgDenunciante" required="" type="text"/>
+<label for="patenteDenunciante">Patente do denunciante *</label>
+<select id="patenteDenunciante" name="patenteDenunciante" required="">
+<option disabled="" selected="" value="">Selecione a patente</option>
+<option>Aspirante</option>
+<option>Soldado</option>
+<option>Cabo</option>
+<option>3º Sargento</option>
+<option>2º Sargento</option>
+<option>1º Sargento</option>
+<option>Subtenente</option>
+<option>2º Tenente</option>
+<option>1º Tenente</option>
+<option>Capitão</option>
+<option>Major</option>
+<option>Tenente Coronel</option>
+<option>Coronel</option>
+</select>
+<label for="divisaoDenunciante">Divisão do denunciante *</label>
+<select id="divisaoDenunciante" name="divisaoDenunciante" required="">
+<option disabled="" selected="" value="">Selecione a divisão</option>
+<option>Força Tática</option>
+<option>ROTA</option>
+<option>ROCAM</option>
+<option>GCM</option>
+<option>ROMU</option>
+<option>Polícia Rodoviária</option>
+<option>Patrulhamento Regular</option>
+<option>Outra</option>
+</select>
+<h2>Dados do Acusado</h2>
+<label for="nomeAcusado">Nome completo do acusado *</label>
+<input autocomplete="off" id="nomeAcusado" name="nomeAcusado" required="" type="text"/>
+<label for="rgAcusado">RG do acusado *</label>
+<input autocomplete="off" id="rgAcusado" name="rgAcusado" required="" type="text"/>
+<label for="patenteAcusado">Patente do acusado *</label>
+<select id="patenteAcusado" name="patenteAcusado" required="">
+<option disabled="" selected="" value="">Selecione a patente</option>
+<option>Aspirante</option>
+<option>Soldado</option>
+<option>Cabo</option>
+<option>3º Sargento</option>
+<option>2º Sargento</option>
+<option>1º Sargento</option>
+<option>Subtenente</option>
+<option>2º Tenente</option>
+<option>1º Tenente</option>
+<option>Capitão</option>
+<option>Major</option>
+<option>Tenente Coronel</option>
+<option>Coronel</option>
+</select>
+<label for="divisaoAcusado">Divisão que o acusado opera *</label>
+<select id="divisaoAcusado" name="divisaoAcusado" required="">
+<option disabled="" selected="" value="">Selecione a divisão</option>
+<option>Força Tática</option>
+<option>ROTA</option>
+<option>ROCAM</option>
+<option>GCM</option>
+<option>ROMU</option>
+<option>Polícia Rodoviária</option>
+<option>Patrulhamento Regular</option>
+<option>Outra</option>
+</select>
+<h2>Detalhes da Ocorrência</h2>
+<label for="dataHoraFato">Data e hora do fato *</label>
+<input id="dataHoraFato" name="dataHoraFato" required="" type="datetime-local"/>
+<label for="localFato">Local da ocorrência *</label>
+<input autocomplete="off" id="localFato" name="localFato" required="" type="text"/>
+<label for="motivoDenuncia">Motivo da denúncia *</label>
+<select id="motivoDenuncia" name="motivoDenuncia" required="">
+<option disabled="" selected="" value="">Selecione o motivo</option>
+<option>Abuso de autoridade</option>
+<option>Conduta antirregulamentar</option>
+<option>Ato de corrupção</option>
+<option>Desrespeito à hierarquia</option>
+<option>Uso indevido do cargo</option>
+<option>Negligência no serviço</option>
+<option>Falta de profissionalismo</option>
+<option>Assédio moral</option>
+<option>Assédio sexual</option>
+<option>Violência física</option>
+<option>Má conduta com civis</option>
+<option>Uso indevido de armas</option>
+<option>Falta de presença</option>
+<option>Manipulação de evidências</option>
+<option>Recusa de ordens superiores</option>
+<option>Outros</option>
+</select>
+<label for="descricaoDetalhada">Descrição detalhada *</label>
+<textarea id="descricaoDetalhada" name="descricaoDetalhada" placeholder="Descreva detalhadamente a denúncia..." required=""></textarea>
+<label for="linkProvas">Link para provas *</label>
+<input autocomplete="off" id="linkProvas" name="linkProvas" placeholder="URL das provas" required="" type="text"/>
+<label for="contato">Contato para retorno (opcional)</label>
+<input autocomplete="off" id="contato" name="contato" placeholder="Telefone ou e-mail" type="text"/>
+<button aria-label="Enviar denúncia interna" type="submit">Enviar Denúncia</button>
+</form>
 </div>
-
 <script>
   // Fundo animado
-  const canvas = document.getElementById('fundo');
+  const canvas = document.getElementById('senhaCanvas');
   const ctx = canvas.getContext('2d');
   let width, height;
   let points = [];
@@ -442,10 +423,10 @@
   }
 
   window.addEventListener('resize', () => {
-    initCanvas();
+    if (document.getElementById('senhaOverlay').style.display !== 'none') initCanvas();
   });
 
-  initCanvas();
+  if (document.getElementById('senhaOverlay').style.display !== 'none') initCanvas();
   draw();
 
   // Controle da senha
@@ -508,37 +489,35 @@
     // Você pode modificar essa parte para enviar para um servidor via fetch/AJAX
     // Aqui vamos só simular o envio e mostrar mensagem de sucesso
 
-    console.log('Denúncia enviada:', dados);
+    fetch('https://api-denuncias.onrender.com/denuncias', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dados)
+    })
+    .then(response => {
+      if (!response.ok) throw new Error('Erro ao enviar denúncia');
+      return response.json();
+    })
+    .then(data => {
+      const msg = document.createElement('div');
+      msg.className = 'msg-sucesso';
+      msg.textContent = 'Denúncia enviada com sucesso! Obrigado pela colaboração.';
+      document.body.appendChild(msg);
 
-    // Mostrar mensagem de sucesso
-    const msg = document.createElement('div');
-    msg.className = 'msg-sucesso';
-    msg.textContent = 'Denúncia enviada com sucesso! Obrigado pela colaboração.';
-    document.body.appendChild(msg);
+      denunciaForm.reset();
 
-    // Resetar formulário
-    denunciaForm.reset();
-
-    // Remover mensagem após 3 segundos
-    setTimeout(() => {
-      msg.remove();
-    }, 3000);
+      setTimeout(() => {
+        msg.remove();
+      }, 3000);
+    })
+    .catch(error => {
+      alert('Erro ao enviar a denúncia. Tente novamente mais tarde.');
+      console.error('Erro ao enviar denúncia:', error);
+    });
   });
 </script>
-<div style="text-align: center; margin-top: 40px;">
-  <button onclick="window.location.href='fase5.html'" style="
-    background-color: #111;
-    border: 2px solid #ff0000;
-    color: white;
-    padding: 14px 28px;
-    font-size: 18px;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: 0.3s;
-  " onmouseover="this.style.backgroundColor='#ff0000'; this.style.color='#000'" onmouseout="this.style.backgroundColor='#111'; this.style.color='white'">
-    Ir para Central
-  </button>
-</div>
 
 </body>
 </html>

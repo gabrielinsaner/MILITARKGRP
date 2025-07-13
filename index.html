@@ -1,215 +1,417 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Notícias PM KGRP</title>
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Controle de Recrutadores - Maresia RP</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
   <style>
-    body {
-      margin: 0;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
-      color: #ffffff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
     }
-
-    header {
-      background: linear-gradient(to right, #8B0000, #000);
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+      font-family: 'Orbitron', sans-serif;
+      color: #00ffff;
+      background: linear-gradient(135deg, #000000, #001f1f);
+    }
+    #particles-js {
+      position: fixed;
       width: 100%;
+      height: 100%;
+      z-index: -2;
+      top: 0; left: 0;
+    }
+    .container {
+      border-radius: 20px;
+      margin: 3rem auto 5rem auto;
+      padding: 2rem;
+      width: 90%;
+      max-width: 1200px;
+      background: rgba(0, 10, 20, 0.85);
+      backdrop-filter: blur(10px);
+      overflow-y: auto;
+      max-height: 90vh;
+      box-shadow: 0 0 30px #00ffffaa;
+      animation: fadeInContainer 1s ease-in-out;
+    }
+    @keyframes fadeInContainer {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    h1, h2 {
       text-align: center;
-      padding: 60px 20px 40px;
-      border-bottom: 4px solid #00ffcc;
-      position: relative;
-      box-shadow: 0 0 25px #ff0000a8;
+      margin-bottom: 1rem;
+      color: #00ffff;
+      text-shadow: 0 0 15px #00ffffaa;
+      animation: pulseGlow 2s infinite;
     }
-
-    header::before {
-      content: "";
-      position: absolute;
-      top: 20px;
-      left: 40px;
-      width: 80px;
-      height: 80px;
-      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/PMESP_Bras%C3%A3o.png/120px-PMESP_Bras%C3%A3o.png') no-repeat center;
-      background-size: contain;
-      filter: drop-shadow(0 0 4px rgba(0,0,0,0.6));
-    }
-
-    header h1 {
-      font-size: 2.8rem;
-      color: #00ffcc;
-      letter-spacing: 2px;
-      text-shadow: 0 0 10px #00ffcc;
-      margin-bottom: 10px;
-    }
-
-    header p {
-      font-size: 1rem;
-      color: #bbbbbb;
-      font-style: italic;
-    }
-
-    .ocorrencias {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 30px;
+    table {
       width: 100%;
-      max-width: 1300px;
-      padding: 40px 20px;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      animation: fadeIn 1.5s ease-in-out;
     }
-
-    .card {
-      background: #111;
-      border: 1px solid #00ffcc50;
-      border-left: 6px solid #ff0000;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 0 20px rgba(0, 255, 200, 0.15);
-      transition: 0.3s ease-in-out;
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #00ffff44;
+      text-align: left;
+      user-select: text;
     }
-
-    .card:hover {
-      transform: scale(1.02);
-      box-shadow: 0 0 30px #00ffcc80;
+    th {
+      background-color: #00ffff22;
     }
-
-    .card img {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
-      display: block;
-      border-bottom: 1px solid #222;
+    td[contenteditable="true"] {
+      background-color: rgba(0, 255, 255, 0.1);
+      border-radius: 4px;
+      cursor: text;
+      outline: none;
+      transition: background-color 0.3s ease;
     }
-
-    .card-body {
-      padding: 20px;
+    td[contenteditable="true"]:focus {
+      background-color: rgba(0, 255, 255, 0.3);
+      box-shadow: 0 0 8px #00ffffaa;
     }
-
-    .card-body h3 {
-      color: #00ccff;
-      font-size: 1.4rem;
-      margin: 0 0 12px;
-      letter-spacing: 1px;
-    }
-
-    .card-body p {
-      font-size: 1rem;
-      color: #dddddd;
-      line-height: 1.5;
-    }
-
-    .card-body span {
-      display: block;
-      margin-top: 12px;
-      color: #888;
+    .tag {
+      padding: 4px 10px;
+      border-radius: 20px;
       font-size: 0.85rem;
-      font-style: italic;
-    }
-
-    .botao-central {
-      margin: 60px 0 40px;
-    }
-
-    .botao-central a {
-      background: #00ffcc;
-      color: #000;
-      padding: 16px 32px;
-      font-size: 1.1rem;
       font-weight: bold;
-      text-decoration: none;
-      border-radius: 10px;
-      box-shadow: 0 0 15px #00ffcc99;
-      transition: 0.3s;
-    }
-
-    .botao-central a:hover {
-      background: #00ccaa;
-      transform: scale(1.05);
-    }
-
-    footer {
-      width: 100%;
-      background: #000;
-      padding: 15px 20px;
+      color: #000;
+      animation: pulse 2s infinite ease-in-out;
+      display: inline-block;
+      min-width: 100px;
       text-align: center;
-      color: #555;
+      user-select: none;
+    }
+    .ativo {
+      background-color: #00ff99;
+      box-shadow: 0 0 15px #00ff99;
+    }
+    .inativo {
+      background-color: #ffcc00;
+      box-shadow: 0 0 15px #ffcc00;
+    }
+    .desligamento {
+      background-color: #ff3333;
+      box-shadow: 0 0 15px #ff3333;
+    }
+    .destaque-rec {
+      background-color: #3399ff;
+      color: #000;
+      box-shadow: 0 0 20px #3399ff;
+      animation: pulse 2s infinite ease-in-out;
+      font-style: normal;
+    }
+    .verde {
+      background-color: #00cc44;
+      color: #000;
+      box-shadow: 0 0 15px #00cc44;
+      animation: pulse 2s infinite ease-in-out;
+    }
+    .vermelho {
+      background-color: #cc3300;
+      color: #000;
+      box-shadow: 0 0 15px #cc3300;
+      animation: pulse 2s infinite ease-in-out;
+    }
+    footer {
+      text-align: center;
+      color: #ccc;
+      margin-top: 2rem;
       font-size: 0.9rem;
-      border-top: 2px solid #00ffcc;
+      opacity: 0.7;
+      margin-bottom: 2rem;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { text-shadow: 0 0 15px #00ffffaa; }
+      50% { text-shadow: 0 0 30px #00ffffcc; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    button#saveBtn {
+      margin: 20px auto 0 auto;
+      display: block;
+      background-color: #00ffff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-weight: bold;
+      color: #000;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00ffffaa;
+      transition: background-color 0.3s ease;
+    }
+    button#saveBtn:hover {
+      background-color: #00cccc;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>NOTÍCIAS DA POLÍCIA MILITAR KGRP</h1>
-    <p>Boletim Oficial | Ocorrências registradas e divulgadas pela corporação</p>
-  </header>
+  <div id="particles-js"></div>
 
-  <section class="ocorrencias" id="noticiasContainer"></section>
+  <div class="container">
+    <h1>🔰 Controle de Recrutadores - Maresia RP</h1>
 
-  <div class="botao-central">
-    <a href="fase1.html">IR PARA A CENTRAL</a>
+    <div class="section">
+      <h2>📌 Estrutura Hierárquica</h2>
+      <table id="hierarquiaTable">
+        <thead>
+          <tr><th>Nome</th><th>ID</th><th>Cargo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td contenteditable="true" data-col="nome">AUX. Santos</td><td contenteditable="true" data-col="id">144</td><td contenteditable="true" data-col="cargo">Auxiliar</td></tr>
+          <tr><td contenteditable="true" data-col="nome">AUX. Demon</td><td contenteditable="true" data-col="id">62</td><td contenteditable="true" data-col="cargo">Auxiliar</td></tr>
+          <tr><td contenteditable="true" data-col="nome">SUB. Grossi</td><td contenteditable="true" data-col="id">44715</td><td contenteditable="true" data-col="cargo">Subordinado</td></tr>
+          <tr><td contenteditable="true" data-col="nome">AFL.R Diogo Couto</td><td contenteditable="true" data-col="id">56428</td><td contenteditable="true" data-col="cargo">Recrutador</td></tr>
+          <tr><td contenteditable="true" data-col="nome">AFL.R Stark fps</td><td contenteditable="true" data-col="id">52217</td><td contenteditable="true" data-col="cargo">Recrutador</td></tr>
+          <tr><td contenteditable="true" data-col="nome">AFL.R CPX LCS</td><td contenteditable="true" data-col="id">47835</td><td contenteditable="true" data-col="cargo">Recrutador</td></tr>
+          <tr><td contenteditable="true" data-col="nome">AFL.R VK Arana</td><td contenteditable="true" data-col="id">56184</td><td contenteditable="true" data-col="cargo">Recrutador</td></tr>
+          <tr><td contenteditable="true" data-col="nome">AFL.R Nino</td><td contenteditable="true" data-col="id">12845</td><td contenteditable="true" data-col="cargo">Recrutador</td></tr>
+          <tr><td contenteditable="true" data-col="nome">AFL.R Mateus</td><td contenteditable="true" data-col="id">51527</td><td contenteditable="true" data-col="cargo">Recrutador</td></tr>
+          <tr><td contenteditable="true" data-col="nome">AFL.R Henrique</td><td contenteditable="true" data-col="id">55677</td><td contenteditable="true" data-col="cargo">Recrutador</td></tr>
+          <tr><td contenteditable="true" data-col="nome">AFL.R Faria</td><td contenteditable="true" data-col="id">48852</td><td contenteditable="true" data-col="cargo">Recrutador</td></tr>
+          <tr><td contenteditable="true" data-col="nome">AFL.R Jhamessurf</td><td contenteditable="true" data-col="id">47200</td><td contenteditable="true" data-col="cargo">Recrutador</td></tr>
+          <tr><td contenteditable="true" data-col="nome">AFL.R Milton</td><td contenteditable="true" data-col="id">26715</td><td contenteditable="true" data-col="cargo">Recrutador</td></tr>
+          <tr><td contenteditable="true" data-col="nome">AFL.R Raro XPZ</td><td contenteditable="true" data-col="id">52415</td><td contenteditable="true" data-col="cargo">Recrutador</td></tr>
+          <tr><td contenteditable="true" data-col="nome">AFL.R Londriano</td><td contenteditable="true" data-col="id">50977</td><td contenteditable="true" data-col="cargo">Recrutador</td></tr>
+          <tr><td contenteditable="true" data-col="nome">AFL.R Eduarda Lobo</td><td contenteditable="true" data-col="id">48078</td><td contenteditable="true" data-col="cargo">Recrutador</td></tr>
+          <tr><td contenteditable="true" data-col="nome">AFL.R Gomes</td><td contenteditable="true" data-col="id">55157</td><td contenteditable="true" data-col="cargo">Recrutador</td></tr>
+          <tr><td contenteditable="true" data-col="nome">AFL.R João RP</td><td contenteditable="true" data-col="id">55991</td><td contenteditable="true" data-col="cargo">Recrutador</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>📊 Status de Atividade</h2>
+      <table id="statusTable">
+        <thead>
+          <tr><th>Nome</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr><td contenteditable="true">Em breve</td><td contenteditable="true" class="tag destaque-rec">Destaque REC</td></tr>
+          <tr><td contenteditable="true">Diogo Couto</td><td contenteditable="true" class="tag ativo">Ativo</td></tr>
+          <tr><td contenteditable="true">Henrique</td><td contenteditable="true" class="tag ativo">Ativo</td></tr>
+          <tr><td contenteditable="true">Stark fps</td><td contenteditable="true" class="tag ativo">Ativo</td></tr>
+          <tr><td contenteditable="true">Faria</td><td contenteditable="true" class="tag ativo">Ativo</td></tr>
+          <tr><td contenteditable="true">João RP</td><td contenteditable="true" class="tag ativo">Ativo</td></tr>
+
+          <tr><td contenteditable="true">Eduarda Lobo</td><td contenteditable="true" class="tag inativo">Inativo</td></tr>
+          <tr><td contenteditable="true">Gomes</td><td contenteditable="true" class="tag inativo">Inativo</td></tr>
+          <tr><td contenteditable="true">Raro XPZ</td><td contenteditable="true" class="tag inativo">Inativo</td></tr>
+          <tr><td contenteditable="true">CPX LCS</td><td contenteditable="true" class="tag inativo">Inativo</td></tr>
+          <tr><td contenteditable="true">Milton</td><td contenteditable="true" class="tag inativo">Inativo</td></tr>
+
+          <tr><td contenteditable="true">Londriano</td><td contenteditable="true" class="tag desligamento">Possível Desligamento</td></tr>
+          <tr><td contenteditable="true">Nino</td><td contenteditable="true" class="tag desligamento">Possível Desligamento</td></tr>
+          <tr><td contenteditable="true">VK Arana</td><td contenteditable="true" class="tag desligamento">Possível Desligamento</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>📋 Recrutamentos por Membro</h2>
+      <table id="recMembrosTable">
+        <thead>
+          <tr><th>Nome</th><th>Recrutamentos</th></tr>
+        </thead>
+        <tbody>
+          <tr><td contenteditable="true">AUX. Santos</td><td contenteditable="true">0</td></tr>
+          <tr><td contenteditable="true">AUX. Demon</td><td contenteditable="true">0</td></tr>
+          <tr><td contenteditable="true">SUB. Grossi</td><td contenteditable="true">1</td></tr>
+          <tr><td contenteditable="true">Diogo Couto</td><td contenteditable="true">12</td></tr>
+          <tr><td contenteditable="true">Stark fps</td><td contenteditable="true">7</td></tr>
+          <tr><td contenteditable="true">CPX LCS</td><td contenteditable="true">2</td></tr>
+          <tr><td contenteditable="true">VK Arana</td><td contenteditable="true">0</td></tr>
+          <tr><td contenteditable="true">Nino</td><td contenteditable="true">1</td></tr>
+          <tr><td contenteditable="true">Mateus</td><td contenteditable="true">4</td></tr>
+          <tr><td contenteditable="true">Henrique</td><td contenteditable="true">9</td></tr>
+          <tr><td contenteditable="true">Faria</td><td contenteditable="true">6</td></tr>
+          <tr><td contenteditable="true">Jhamessurf</td><td contenteditable="true">3</td></tr>
+          <tr><td contenteditable="true">Milton</td><td contenteditable="true">1</td></tr>
+          <tr><td contenteditable="true">Raro XPZ</td><td contenteditable="true">2</td></tr>
+          <tr><td contenteditable="true">Londriano</td><td contenteditable="true">0</td></tr>
+          <tr><td contenteditable="true">Eduarda Lobo</td><td contenteditable="true">3</td></tr>
+          <tr><td contenteditable="true">Gomes</td><td contenteditable="true">3</td></tr>
+          <tr><td contenteditable="true">João RP</td><td contenteditable="true">5</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <h2>📈 Resultado do Dia</h2>
+      <table id="resultadoDiaTable">
+        <thead>
+          <tr><th>Nome</th><th>Resultado</th></tr>
+        </thead>
+        <tbody>
+          <tr><td contenteditable="true">AUX. Santos</td><td contenteditable="true" class="tag vermelho">Não bateu</td></tr>
+          <tr><td contenteditable="true">AUX. Demon</td><td contenteditable="true" class="tag vermelho">Não bateu</td></tr>
+          <tr><td contenteditable="true">SUB. Grossi</td><td contenteditable="true" class="tag verde">Meta batida</td></tr>
+          <tr><td contenteditable="true">Diogo Couto</td><td contenteditable="true" class="tag verde">Meta batida</td></tr>
+          <tr><td contenteditable="true">Stark fps</td><td contenteditable="true" class="tag vermelho">Não bateu</td></tr>
+          <tr><td contenteditable="true">CPX LCS</td><td contenteditable="true" class="tag vermelho">Não bateu</td></tr>
+          <tr><td contenteditable="true">VK Arana</td><td contenteditable="true" class="tag vermelho">Não bateu</td></tr>
+          <tr><td contenteditable="true">Nino</td><td contenteditable="true" class="tag verde">Meta batida</td></tr>
+          <tr><td contenteditable="true">Mateus</td><td contenteditable="true" class="tag verde">Meta batida</td></tr>
+          <tr><td contenteditable="true">Henrique</td><td contenteditable="true" class="tag verde">Meta batida</td></tr>
+          <tr><td contenteditable="true">Faria</td><td contenteditable="true" class="tag vermelho">Não bateu</td></tr>
+          <tr><td contenteditable="true">Jhamessurf</td><td contenteditable="true" class="tag vermelho">Não bateu</td></tr>
+          <tr><td contenteditable="true">Milton</td><td contenteditable="true" class="tag verde">Meta batida</td></tr>
+          <tr><td contenteditable="true">Raro XPZ</td><td contenteditable="true" class="tag vermelho">Não bateu</td></tr>
+          <tr><td contenteditable="true">Londriano</td><td contenteditable="true" class="tag vermelho">Não bateu</td></tr>
+          <tr><td contenteditable="true">Eduarda Lobo</td><td contenteditable="true" class="tag verde">Meta batida</td></tr>
+          <tr><td contenteditable="true">Gomes</td><td contenteditable="true" class="tag vermelho">Não bateu</td></tr>
+          <tr><td contenteditable="true">João RP</td><td contenteditable="true" class="tag verde">Meta batida</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <button id="saveBtn">💾 Salvar Dados no Arquivo</button>
+
+    <footer>
+      Desenvolvido para a cidade Maresia RP - Santa Grup • Afiliados ✨
+    </footer>
   </div>
 
-  <footer>
-    Atualizado automaticamente | Polícia Militar KGRP - RP Virtual MTA
-  </footer>
-
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
   <script>
-    async function carregarNoticias() {
-      const container = document.getElementById("noticiasContainer");
-      container.innerHTML = "<p style='color:white;'>🕐 Carregando notícias...</p>";
+    particlesJS("particles-js", {
+      particles: {
+        number: { value: 80 },
+        color: { value: "#00ffff" },
+        shape: { type: "edge" },
+        opacity: { value: 0.5 },
+        size: { value: 3 },
+        line_linked: {
+          enable: true,
+          distance: 130,
+          color: "#00ffff",
+          opacity: 0.4,
+          width: 1,
+        },
+        move: {
+          enable: true,
+          speed: 2,
+          direction: "none",
+          random: false,
+          straight: false,
+          out_mode: "out",
+          bounce: false,
+        },
+      },
+      interactivity: {
+        detect_on: "canvas",
+        events: {
+          onhover: { enable: true, mode: "grab" },
+          onclick: { enable: true, mode: "push" },
+          resize: true,
+        },
+        modes: {
+          grab: { distance: 140, line_linked: { opacity: 0.7 } },
+          push: { particles_nb: 4 },
+        },
+      },
+      retina_detect: true,
+    });
 
-      try {
-        const [apiRes, manualRes] = await Promise.all([
-          fetch("https://kgrp-api.onrender.com/noticias", { cache: "no-store" }),
-          fetch("noticias.json", { cache: "no-store" })
-        ]);
+    // Atualiza classes das tags baseado no texto digitado
+    function atualizarClasseTag(td) {
+      if (!td.classList.contains('tag')) return;
 
-        const [apiNoticias, manualNoticias] = await Promise.all([
-          apiRes.ok ? apiRes.json() : [],
-          manualRes.ok ? manualRes.json() : []
-        ]);
+      const texto = td.textContent.trim().toLowerCase();
 
-        const todas = [...apiNoticias, ...manualNoticias];
+      td.classList.remove('ativo', 'inativo', 'desligamento', 'destaque-rec', 'verde', 'vermelho');
 
-        const vistas = new Set();
-        const unicas = todas.filter(n => {
-          const chave = n.titulo + "|" + n.data;
-          if (vistas.has(chave)) return false;
-          vistas.add(chave);
-          return true;
-        });
-
-        container.innerHTML = "";
-        unicas.forEach(n => {
-          const div = document.createElement("div");
-          div.className = "card";
-          div.innerHTML = `
-            ${n.imagem ? `<img src="${n.imagem}" alt="Imagem da notícia">` : ""}
-            <div class="card-body">
-              <h3>${n.titulo}</h3>
-              <p>${formatarTexto(n.conteudo)}</p>
-              <span>${n.data}</span>
-            </div>
-          `;
-          container.appendChild(div);
-        });
-      } catch (e) {
-        container.innerHTML = "<p style='color:red;'>❌ Não foi possível carregar as notícias.</p>";
-        console.error("Erro:", e);
+      if (texto === 'ativo') {
+        td.classList.add('ativo');
+      } else if (texto === 'inativo') {
+        td.classList.add('inativo');
+      } else if (texto === 'possível desligamento' || texto === 'desligamento') {
+        td.classList.add('desligamento');
+      } else if (texto === 'destaque rec' || texto === 'destaque') {
+        td.classList.add('destaque-rec');
+      } else if (texto === 'meta batida' || texto === 'batida') {
+        td.classList.add('verde');
+      } else if (texto === 'não bateu' || texto === 'nao bateu') {
+        td.classList.add('vermelho');
       }
     }
 
-    function formatarTexto(texto) {
-      return texto.replace(/\n{2,}/g, '</p><p>').replace(/\n/g, '<br>');
-    }
+    // Aplica classe correta em tags ao carregar a página
+    document.querySelectorAll('td.tag').forEach(td => {
+      atualizarClasseTag(td);
+    });
 
-    carregarNoticias();
-    setInterval(carregarNoticias, 2 * 60 * 1000); // Atualiza a cada 2 minutos
+    // Escuta input em células editáveis para atualizar classes das tags
+    document.querySelectorAll('td[contenteditable="true"]').forEach(td => {
+      td.addEventListener('input', () => {
+        atualizarClasseTag(td);
+      });
+    });
 
+    // Salvar conteúdo do site em arquivo txt para backup
+    document.getElementById('saveBtn').addEventListener('click', () => {
+      let html = `
+Controle de Recrutadores - Maresia RP
+
+📌 Estrutura Hierárquica
+Nome | ID | Cargo
+`;
+      // Estrutura Hierárquica
+      document.querySelectorAll('#hierarquiaTable tbody tr').forEach(tr => {
+        const tds = tr.querySelectorAll('td');
+        html += `${tds[0].textContent.trim()} | ${tds[1].textContent.trim()} | ${tds[2].textContent.trim()}\n`;
+      });
+
+      html += `
+
+📊 Status de Atividade
+Nome | Status
+`;
+      // Status de Atividade
+      document.querySelectorAll('#statusTable tbody tr').forEach(tr => {
+        const tds = tr.querySelectorAll('td');
+        html += `${tds[0].textContent.trim()} | ${tds[1].textContent.trim()}\n`;
+      });
+
+      html += `
+
+📋 Recrutamentos por Membro
+Nome | Recrutamentos
+`;
+      // Recrutamentos por Membro
+      document.querySelectorAll('#recMembrosTable tbody tr').forEach(tr => {
+        const tds = tr.querySelectorAll('td');
+        html += `${tds[0].textContent.trim()} | ${tds[1].textContent.trim()}\n`;
+      });
+
+      html += `
+
+📈 Resultado do Dia
+Nome | Resultado
+`;
+      // Resultado do Dia
+      document.querySelectorAll('#resultadoDiaTable tbody tr').forEach(tr => {
+        const tds = tr.querySelectorAll('td');
+        html += `${tds[0].textContent.trim()} | ${tds[1].textContent.trim()}\n`;
+      });
+
+      const blob = new Blob([html], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'controle_recrutadores_maresia.txt';
+      a.click();
+      URL.revokeObjectURL(url);
+    });
   </script>
 </body>
 </html>
